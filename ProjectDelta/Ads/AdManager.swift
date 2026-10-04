@@ -2,7 +2,8 @@
 //  AdManager.swift
 //  Project Delta
 //
-//  Google Mobile Ads (AdMob) integration.
+//  Google Mobile Ads (AdMob) integration — written against GMA iOS SDK v13
+//  Swift API naming (GAD prefixes removed in v12).
 //  - Banner: bottom of menu / character-select screens.
 //  - Interstitial: every 3rd game over, max once per 60 seconds.
 //  - Rewarded: "revive" continue after a crash.
@@ -69,8 +70,8 @@ final class AdManager: NSObject, ObservableObject {
     private var lastInterstitialShownAt: Date?
 
     #if !targetEnvironment(macCatalyst)
-    private var interstitialAd: GADInterstitialAd?
-    private var rewardedAd: GADRewardedAd?
+    private var interstitialAd: InterstitialAd?
+    private var rewardedAd: RewardedAd?
     private var pendingRewardHandler: (() -> Void)?
     #endif
 
@@ -79,7 +80,7 @@ final class AdManager: NSObject, ObservableObject {
     override init() {
         super.init()
         #if !targetEnvironment(macCatalyst)
-        GADMobileAds.sharedInstance().start(completionHandler: nil)
+        MobileAds.shared.start()
         loadInterstitial()
         loadRewarded()
         #endif
@@ -109,7 +110,7 @@ final class AdManager: NSObject, ObservableObject {
         #if !targetEnvironment(macCatalyst)
         let id = Self.interstitialID
         guard !id.isEmpty else { return }
-        GADInterstitialAd.load(withAdUnitID: id, request: GADRequest()) { [weak self] ad, error in
+        InterstitialAd.load(with: id, request: Request()) { [weak self] ad, error in
             DispatchQueue.main.async {
                 guard let self else { return }
                 if let ad {
@@ -137,7 +138,7 @@ final class AdManager: NSObject, ObservableObject {
         lastInterstitialShownAt = Date()
         interstitialAd = nil
         isInterstitialReady = false
-        ad.present(fromRootViewController: rootViewController)
+        ad.present(from: rootViewController)
         return true
         #else
         return false
@@ -168,7 +169,7 @@ final class AdManager: NSObject, ObservableObject {
         #if !targetEnvironment(macCatalyst)
         let id = Self.rewardedID
         guard !id.isEmpty else { return }
-        GADRewardedAd.load(withAdUnitID: id, request: GADRequest()) { [weak self] ad, error in
+        RewardedAd.load(with: id, request: Request()) { [weak self] ad, error in
             DispatchQueue.main.async {
                 guard let self else { return }
                 if let ad {
@@ -191,7 +192,7 @@ final class AdManager: NSObject, ObservableObject {
         pendingRewardHandler = onReward
         rewardedAd = nil
         isRewardedReady = false
-        ad.present(fromRootViewController: rootViewController) { [weak self] in
+        ad.present(from: rootViewController) { [weak self] in
             DispatchQueue.main.async {
                 self?.pendingRewardHandler?()
                 self?.pendingRewardHandler = nil
@@ -218,32 +219,32 @@ final class AdManager: NSObject, ObservableObject {
     }
 }
 
-// MARK: - GADFullScreenContentDelegate (iOS only)
+// MARK: - FullScreenContentDelegate (iOS only)
 
 #if !targetEnvironment(macCatalyst)
-extension AdManager: GADFullScreenContentDelegate {
+extension AdManager: FullScreenContentDelegate {
 
-    func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
+    func adDidDismissFullScreenContent(_ ad: FullScreenPresentingAd) {
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }
             // Preload the next ad as soon as one is dismissed.
-            if ad is GADInterstitialAd {
+            if ad is InterstitialAd {
                 self.loadInterstitial()
-            } else if ad is GADRewardedAd {
+            } else if ad is RewardedAd {
                 self.loadRewarded()
             }
         }
     }
 
-    func ad(_ ad: GADFullScreenPresentingAd,
+    func ad(_ ad: FullScreenPresentingAd,
             didFailToPresentFullScreenContentWithError error: Error) {
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }
-            if ad is GADInterstitialAd {
+            if ad is InterstitialAd {
                 self.interstitialAd = nil
                 self.isInterstitialReady = false
                 self.loadInterstitial()
-            } else if ad is GADRewardedAd {
+            } else if ad is RewardedAd {
                 self.rewardedAd = nil
                 self.isRewardedReady = false
                 self.pendingRewardHandler = nil
@@ -255,7 +256,7 @@ extension AdManager: GADFullScreenContentDelegate {
 
 // MARK: - Banner host view controller (iOS only)
 
-private final class AdBannerViewController: UIViewController, GADBannerViewDelegate {
+private final class AdBannerViewController: UIViewController, BannerViewDelegate {
 
     var adUnitID: String = ""
 
@@ -263,7 +264,7 @@ private final class AdBannerViewController: UIViewController, GADBannerViewDeleg
         super.viewDidLoad()
         view.backgroundColor = .clear
 
-        let banner = GADBannerView(adSize: GADAdSizeBanner)
+        let banner = BannerView(adSize: AdSizeBanner)
         banner.adUnitID = adUnitID
         banner.rootViewController = self
         banner.delegate = self
@@ -272,13 +273,13 @@ private final class AdBannerViewController: UIViewController, GADBannerViewDeleg
         NSLayoutConstraint.activate([
             banner.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             banner.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            banner.widthAnchor.constraint(equalToConstant: GADAdSizeBanner.size.width),
-            banner.heightAnchor.constraint(equalToConstant: GADAdSizeBanner.size.height),
+            banner.widthAnchor.constraint(equalToConstant: AdSizeBanner.size.width),
+            banner.heightAnchor.constraint(equalToConstant: AdSizeBanner.size.height),
         ])
-        banner.load(GADRequest())
+        banner.load(Request())
     }
 
-    func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
+    func bannerViewDidReceiveAd(_ bannerView: BannerView) {
         bannerView.alpha = 0
         UIView.animate(withDuration: 0.25) { bannerView.alpha = 1 }
     }
