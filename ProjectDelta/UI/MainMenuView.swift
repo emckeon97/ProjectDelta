@@ -1,13 +1,19 @@
 import SwiftUI
 import SceneKit
+import UIKit
 
-/// Live 3D thumbnail of a character — SceneKit preview with a slow turntable.
+/// Live character thumbnail — bundled 2D sprite art when available,
+/// falling back to the SceneKit 3D preview with a slow turntable.
 /// Used on the menu and the character-select grid.
 struct CharacterPreviewView: View {
     let characterID: String
 
     var body: some View {
-        CharacterPreviewRepresentable(characterID: characterID)
+        if CharacterRenderer.hasSprite(for: characterID), let ui = UIImage(named: characterID) {
+            Image(uiImage: ui).resizable().aspectRatio(contentMode: .fit)
+        } else {
+            CharacterPreviewRepresentable(characterID: characterID)
+        }
     }
 }
 
