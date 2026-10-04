@@ -1,6 +1,6 @@
 //
 //  AdManager.swift
-//  Project Delta
+//  Pier Pressure
 //
 //  Google Mobile Ads (AdMob) integration — written against GMA iOS SDK v13
 //  Swift API naming (GAD prefixes removed in v12).
