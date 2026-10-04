@@ -1,11 +1,11 @@
 import SceneKit
 
-// MARK: - Obstacles
+// MARK: - Obstacles (steamboat-river themed)
 
 enum ObstacleKind {
-    case barrier    // low hurdle — jump over it
-    case overhead   // high bar — roll under it
-    case train      // full-height block — change lanes
+    case barrier    // rowboat — jump over it
+    case overhead   // footbridge — roll under it
+    case train      // paddle-wheeler steamboat — dodge!
 }
 
 /// An obstacle node. Position is the ground-center of its lane (scene coordinates).
@@ -49,69 +49,141 @@ final class Obstacle: SCNNode {
         return n
     }
 
+    @discardableResult private func cyl(_ r: CGFloat, _ h: CGFloat, color: UIColor, _ x: Float, _ y: Float, _ z: Float = 0) -> SCNNode {
+        let n = SCNNode(geometry: SCNCylinder(radius: r, height: h))
+        n.geometry?.materials = [mat(color)]
+        n.position = SCNVector3(x, y, z)
+        addChildNode(n)
+        return n
+    }
+
+    @discardableResult private func torus(_ ring: CGFloat, _ pipe: CGFloat, color: UIColor, _ x: Float, _ y: Float, _ z: Float = 0) -> SCNNode {
+        let n = SCNNode(geometry: SCNTorus(ringRadius: ring, pipeRadius: pipe))
+        n.geometry?.materials = [mat(color)]
+        n.position = SCNVector3(x, y, z)
+        addChildNode(n)
+        return n
+    }
+
     private func build() {
         switch kind {
-        case .barrier: buildBarrier()
-        case .overhead: buildOverhead()
-        case .train: buildTrain()
+        case .barrier: buildRowboat()
+        case .overhead: buildFootbridge()
+        case .train: buildSteamboat()
         }
     }
 
-    /// Low striped hurdle (top at y≈1.0).
-    private func buildBarrier() {
-        let dark = UIColor(white: 0.25, alpha: 1)
-        box(0.15, 0.9, 0.15, color: dark, -0.85, 0.45)
-        box(0.15, 0.9, 0.15, color: dark, 0.85, 0.45)
-        // striped board: alternating orange / white segments
-        let segs = 6
-        let segW: CGFloat = 1.8 / CGFloat(segs)
-        for i in 0..<segs {
-            let c: UIColor = (i % 2 == 0) ? UIColor(red: 0.95, green: 0.45, blue: 0.1, alpha: 1)
-                                           : UIColor(white: 0.92, alpha: 1)
-            box(segW, 0.42, 0.12, color: c, Float(-0.9 + Double(i) * Double(segW) + Double(segW) / 2), 0.69)
-        }
+    /// Rowboat drifting across the pier — jump it (top at y≈1.0).
+    private func buildRowboat() {
+        let wood = UIColor(red: 0.36, green: 0.31, blue: 0.27, alpha: 1)
+        let woodDark = UIColor(red: 0.24, green: 0.20, blue: 0.17, alpha: 1)
+        // hull: long axis across the lane
+        box(2.6, 0.7, 1.2, color: wood, 0, 0.5)
+        // tapered bow / stern
+        let bowL = box(0.7, 0.6, 1.0, color: wood, -1.45, 0.5)
+        bowL.eulerAngles.z = Float.pi / 5
+        let bowR = box(0.7, 0.6, 1.0, color: wood, 1.45, 0.5)
+        bowR.eulerAngles.z = -Float.pi / 5
+        // gunwale rim
+        box(2.75, 0.12, 0.10, color: woodDark, 0, 0.90, 0.60)
+        box(2.75, 0.12, 0.10, color: woodDark, 0, 0.90, -0.60)
+        box(0.10, 0.12, 1.30, color: woodDark, -1.32, 0.90)
+        box(0.10, 0.12, 1.30, color: woodDark, 1.32, 0.90)
+        // bench seats
+        box(0.28, 0.08, 1.05, color: woodDark, -0.55, 0.72)
+        box(0.28, 0.08, 1.05, color: woodDark, 0.55, 0.72)
+        // oar resting across the boat
+        let oar = cyl(0.035, 2.4, color: woodDark, 0.1, 0.99)
+        oar.eulerAngles.z = Float.pi / 2 - 0.12
     }
 
-    /// High bar with supports (bar spans y 1.7–2.1) — roll under it.
-    private func buildOverhead() {
-        let post = UIColor(white: 0.3, alpha: 1)
-        box(0.15, 2.6, 0.15, color: post, -1.0, 1.3)
-        box(0.15, 2.6, 0.15, color: post, 1.0, 1.3)
-        // hazard-striped bar
-        let segs = 7
-        let segW: CGFloat = 2.0 / CGFloat(segs)
-        for i in 0..<segs {
-            let c: UIColor = (i % 2 == 0) ? UIColor(red: 0.95, green: 0.8, blue: 0.1, alpha: 1)
-                                           : UIColor(white: 0.12, alpha: 1)
-            box(segW, 0.4, 0.18, color: c, Float(-1.0 + Double(i) * Double(segW) + Double(segW) / 2), 1.9)
+    /// Low wooden footbridge — roll under it (beam spans y 1.7–2.1).
+    private func buildFootbridge() {
+        let wood = UIColor(red: 0.32, green: 0.28, blue: 0.24, alpha: 1)
+        let woodDark = UIColor(red: 0.22, green: 0.19, blue: 0.16, alpha: 1)
+        // support posts
+        box(0.22, 2.6, 0.22, color: wood, -1.05, 1.3)
+        box(0.22, 2.6, 0.22, color: wood, 1.05, 1.3)
+        // deck beam (the part you duck under): y 1.72–2.08
+        box(2.35, 0.36, 0.9, color: wood, 0, 1.9)
+        // plank seams on the beam face
+        for i in 0..<5 {
+            let px = Float(-0.9 + Double(i) * 0.45)
+            box(0.05, 0.36, 0.92, color: woodDark, px, 1.9)
         }
-        // hanging warning sign
-        box(0.7, 0.42, 0.08, color: UIColor(red: 0.8, green: 0.15, blue: 0.15, alpha: 1), 0, 1.35, 0.1)
+        // decorative arch above the deck
+        for i in 0..<5 {
+            let t = Float(i) / 4.0
+            let ax = -1.05 + t * 2.1
+            let ay: Float = 2.35 + sin(t * Float.pi) * 0.55
+            let seg = box(0.5, 0.14, 0.5, color: woodDark, ax, ay)
+            seg.eulerAngles.z = (0.5 - t) * 0.9
+        }
+        // hanging lantern — a warm glow in the monochrome world
+        cyl(0.02, 0.3, color: woodDark, 0, 1.58)
+        let lamp = sphere(0.13, color: UIColor(red: 1, green: 0.92, blue: 0.75, alpha: 1), 0, 1.38, 0)
+        let lampMat = SCNMaterial()
+        lampMat.diffuse.contents = UIColor(red: 1, green: 0.92, blue: 0.75, alpha: 1)
+        lampMat.emission.contents = UIColor(red: 1, green: 0.88, blue: 0.68, alpha: 1)
+        lamp.geometry?.materials = [lampMat]
     }
 
-    /// Subway car — full block (3.2 tall, 6 long), must change lanes.
-    private func buildTrain() {
-        let bodyW: CGFloat = 2.0
-        let bodyH: CGFloat = 3.2
-        let bodyD: CGFloat = 6.0
-        let teal = UIColor(red: 0.16, green: 0.35, blue: 0.45, alpha: 1)
-        // car body
-        let body = SCNNode(geometry: SCNBox(width: bodyW, height: bodyH, length: bodyD, chamferRadius: 0.12))
-        body.geometry?.materials = [mat(teal)]
-        body.position = SCNVector3(0, Float(bodyH / 2), 0)
-        addChildNode(body)
-        // roof
-        box(bodyW, 0.3, bodyD, color: UIColor(white: 0.18, alpha: 1), 0, Float(bodyH) + 0.15)
-        // windshield (front face, +z toward the player)
-        box(1.4, 0.8, 0.06, color: UIColor(red: 0.65, green: 0.85, blue: 0.95, alpha: 1), 0, 2.3, Float(bodyD / 2) + 0.01)
-        // headlights
-        let lampC = UIColor(red: 1, green: 0.9, blue: 0.5, alpha: 1)
-        sphere(0.14, color: lampC, -0.55, 1.5, Float(bodyD / 2) + 0.05)
-        sphere(0.14, color: lampC, 0.55, 1.5, Float(bodyD / 2) + 0.05)
-        // bumper stripe
-        box(bodyW - 0.12, 0.22, 0.06, color: UIColor(red: 0.9, green: 0.75, blue: 0.2, alpha: 1), 0, 0.6, Float(bodyD / 2) + 0.01)
-        // side window strip
-        box(0.06, 0.6, bodyD - 0.6, color: UIColor(red: 0.1, green: 0.16, blue: 0.2, alpha: 1), Float(bodyW / 2) + 0.01, 2.4)
-        box(0.06, 0.6, bodyD - 0.6, color: UIColor(red: 0.1, green: 0.16, blue: 0.2, alpha: 1), -Float(bodyW / 2) - 0.01, 2.4)
+    /// Paddle-wheeler steamboat blocking the lane — dodge! (~3.2 tall, 6 long).
+    private func buildSteamboat() {
+        let hullC = UIColor(white: 0.10, alpha: 1)
+        let cabinC = UIColor(white: 0.72, alpha: 1)
+        let trimC = UIColor(white: 0.52, alpha: 1)
+        let stackC = UIColor(white: 0.05, alpha: 1)
+        // hull
+        box(2.0, 1.0, 6.0, color: hullC, 0, 0.5)
+        // tapered bow (front, +z toward the player)
+        let bow = box(1.4, 0.9, 1.2, color: hullC, 0, 0.45, 3.3)
+        bow.eulerAngles.x = -0.35
+        // stacked cabins
+        box(1.7, 0.9, 4.6, color: cabinC, 0, 1.45)
+        box(1.4, 0.8, 3.4, color: cabinC, 0, 2.30)
+        // roofs
+        box(1.9, 0.12, 4.8, color: trimC, 0, 1.96)
+        box(1.6, 0.12, 3.6, color: trimC, 0, 2.76)
+        // lit cabin windows (warm dots in the monochrome world)
+        let winMat = SCNMaterial()
+        winMat.diffuse.contents = UIColor(red: 1, green: 0.88, blue: 0.66, alpha: 1)
+        winMat.emission.contents = UIColor(red: 1, green: 0.88, blue: 0.66, alpha: 1)
+        for i in 0..<4 {
+            let wz = Float(-1.2 + Double(i) * 0.8)
+            for side in [-0.86, 0.86] as [Float] {
+                let win = SCNNode(geometry: SCNBox(width: 0.34, height: 0.34, length: 0.06, chamferRadius: 0))
+                win.geometry?.materials = [winMat]
+                win.eulerAngles.y = side > 0 ? Float.pi / 2 : -Float.pi / 2
+                win.position = SCNVector3(side, 1.45, wz)
+                addChildNode(win)
+            }
+        }
+        // smokestacks with caps
+        cyl(0.18, 1.3, color: stackC, -0.4, 3.00, -1.2)
+        cyl(0.18, 1.3, color: stackC, 0.4, 3.00, -1.2)
+        cyl(0.24, 0.15, color: stackC, -0.4, 3.68, -1.2)
+        cyl(0.24, 0.15, color: stackC, 0.4, 3.68, -1.2)
+        // static smoke puffs
+        let smokeMat = SCNMaterial()
+        smokeMat.diffuse.contents = UIColor(white: 0.7, alpha: 1)
+        smokeMat.transparency.contents = 0.45
+        for (sx, sy) in [(-0.4, 4.15), (0.4, 4.40), (0.0, 4.65)] as [(Float, Float)] {
+            let puff = SCNNode(geometry: SCNSphere(radius: 0.35, segmentCount: 12))
+            puff.geometry?.materials = [smokeMat]
+            puff.position = SCNVector3(sx, sy, -1.2)
+            addChildNode(puff)
+        }
+        // paddle wheel on the starboard side (the one red accent)
+        let wheelC = UIColor(red: 0.62, green: 0.16, blue: 0.14, alpha: 1)
+        let wheel = torus(0.75, 0.13, color: wheelC, 1.12, 0.95)
+        wheel.eulerAngles.y = Float.pi / 2
+        for i in 0..<4 {
+            let spoke = box(0.08, 1.4, 0.08, color: wheelC, 1.12, 0.95)
+            spoke.eulerAngles.x = Float(i) * Float.pi / 4
+        }
+        // wheel housing arch over it
+        let housing = box(0.18, 0.5, 1.9, color: hullC, 1.05, 1.85)
+        housing.eulerAngles.x = 0.0
     }
 }
