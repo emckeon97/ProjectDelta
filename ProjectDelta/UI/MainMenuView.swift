@@ -100,7 +100,7 @@ struct MainMenuView: View {
             MarqueeLights()
                 .padding(.vertical, 10)
 
-            Text("PROJECT DELTA")
+            Text("PIER PRESSURE")
                 .font(.system(size: 44, weight: .black, design: .serif))
                 .tracking(2)
                 .minimumScaleFactor(0.75)
