@@ -2,6 +2,10 @@ import SceneKit
 
 /// Project Delta gameplay in 3D: a 3-lane endless runner.
 /// Player runs at z = 0 facing -z; the world streams toward +z.
+///
+/// Setting: a moonlit river in a 1930s cartoon — the player sprints along a
+/// wooden pier over dark water, jumping rowboats, ducking under footbridges,
+/// and dodging paddle-wheeler steamboats.
 final class GameScene: SCNScene, SCNSceneRendererDelegate {
 
     // MARK: - Public interface
@@ -19,6 +23,7 @@ final class GameScene: SCNScene, SCNSceneRendererDelegate {
     func configure(characterID: String) {
         self.characterID = characterID
         buildPlayer()
+        buildCameos()
     }
 
     func moveLeft() { guard phase == .running else { return }; player?.moveLeft() }
@@ -38,7 +43,7 @@ final class GameScene: SCNScene, SCNSceneRendererDelegate {
     private let powerDuration: TimeInterval = 8
     private let magnetRadius: Float = 6
     private let magnetPull: Float = 14
-    private let scrollSpan: Float = 164     // dash/tie wrap distance
+    private let scrollSpan: Float = 164     // scroller wrap distance
 
     // MARK: - State
 
@@ -46,10 +51,15 @@ final class GameScene: SCNScene, SCNSceneRendererDelegate {
     private var characterID = "willie"
 
     private var player: Player?
+    private var cameos: [SCNNode] = []
     private var obstacles: [Obstacle] = []
     private var coins: [Coin] = []
     private var powerUps: [PowerUp] = []
     private var scrollers: [SCNNode] = []
+
+    /// Far-off riverboat silhouette; drifts slowly for ambient life.
+    private var riverboat: SCNNode?
+    private var riverboatBaseX: Float = 16
 
     private var lastUpdate: TimeInterval = 0
     private var elapsed: TimeInterval = 0
@@ -82,14 +92,18 @@ final class GameScene: SCNScene, SCNSceneRendererDelegate {
         return m
     }
 
+    // MARK: - World: moonlit steamboat river
+
     private func buildWorld() {
-        background.contents = UIColor(red: 0.05, green: 0.06, blue: 0.10, alpha: 1)
+        // Near-black navy sky, like an old cartoon reel at night.
+        let skyColor = UIColor(red: 0.04, green: 0.05, blue: 0.09, alpha: 1)
+        background.contents = skyColor
 
         fogStartDistance = 35
         fogEndDistance = 95
-        fogColor = UIColor(red: 0.05, green: 0.06, blue: 0.10, alpha: 1)
+        fogColor = skyColor
 
-        // Camera
+        // Camera (unchanged)
         let cam = SCNNode()
         cam.camera = SCNCamera()
         cam.camera?.fieldOfView = 60
@@ -100,82 +114,165 @@ final class GameScene: SCNScene, SCNSceneRendererDelegate {
         cam.constraints = [SCNLookAtConstraint(target: lookTarget)]
         rootNode.addChildNode(cam)
 
-        // Lighting: ambient + one directional from above-front
+        // Moonlight: cool ambient + one directional "moon" light
         let ambient = SCNNode()
         ambient.light = SCNLight()
         ambient.light?.type = .ambient
         ambient.light?.intensity = 700
-        ambient.light?.color = UIColor(white: 0.9, alpha: 1)
+        ambient.light?.color = UIColor(red: 0.72, green: 0.80, blue: 0.95, alpha: 1)
         rootNode.addChildNode(ambient)
 
-        let sun = SCNNode()
-        sun.light = SCNLight()
-        sun.light?.type = .directional
-        sun.light?.intensity = 1100
-        sun.position = SCNVector3(4, 10, 6)
-        sun.constraints = [SCNLookAtConstraint(target: lookTarget)]
-        rootNode.addChildNode(sun)
+        let moonLight = SCNNode()
+        moonLight.light = SCNLight()
+        moonLight.light?.type = .directional
+        moonLight.light?.intensity = 1100
+        moonLight.light?.color = UIColor(red: 0.85, green: 0.90, blue: 1.0, alpha: 1)
+        moonLight.position = SCNVector3(-5, 12, 2)
+        moonLight.constraints = [SCNLookAtConstraint(target: lookTarget)]
+        rootNode.addChildNode(moonLight)
 
-        // Ground
-        let ground = SCNNode(geometry: SCNPlane(width: 34, height: 180))
-        ground.geometry?.materials = [mat(UIColor(red: 0.07, green: 0.08, blue: 0.12, alpha: 1))]
-        ground.eulerAngles.x = -Float.pi / 2
-        ground.position = SCNVector3(0, 0, -60)
-        rootNode.addChildNode(ground)
+        // The moon: bright emissive disc + soft halo
+        let moonMat = SCNMaterial()
+        moonMat.diffuse.contents = UIColor(white: 0.95, alpha: 1)
+        moonMat.emission.contents = UIColor(white: 0.9, alpha: 1)
+        let moon = SCNNode(geometry: SCNSphere(radius: 5, segmentCount: 32))
+        moon.geometry?.materials = [moonMat]
+        moon.position = SCNVector3(-24, 22, -70)
+        rootNode.addChildNode(moon)
 
-        // Lane strips
-        for x in GameScene.laneX {
-            let strip = SCNNode(geometry: SCNBox(width: 1.9, height: 0.04, length: 170, chamferRadius: 0))
-            strip.geometry?.materials = [mat(UIColor(red: 0.10, green: 0.11, blue: 0.16, alpha: 1))]
-            strip.position = SCNVector3(x, 0.02, -60)
-            rootNode.addChildNode(strip)
+        let haloMat = SCNMaterial()
+        haloMat.diffuse.contents = UIColor(white: 1, alpha: 1)
+        haloMat.emission.contents = UIColor(white: 0.55, alpha: 1)
+        haloMat.transparency.contents = 0.14
+        let halo = SCNNode(geometry: SCNSphere(radius: 8.5, segmentCount: 24))
+        halo.geometry?.materials = [haloMat]
+        halo.position = moon.position
+        rootNode.addChildNode(halo)
+
+        // Stars
+        let starMat = SCNMaterial()
+        starMat.diffuse.contents = UIColor(white: 1, alpha: 1)
+        starMat.emission.contents = UIColor(white: 1, alpha: 1)
+        for _ in 0..<44 {
+            let star = SCNNode(geometry: SCNSphere(radius: Float.random(in: 0.10...0.26), segmentCount: 6))
+            star.geometry?.materials = [starMat]
+            star.position = SCNVector3(Float.random(in: -90...90),
+                                       Float.random(in: 13...46),
+                                       Float.random(in: -85...-50))
+            rootNode.addChildNode(star)
         }
 
-        // Side rails (static)
-        for x in [-3.5, 3.5] as [Float] {
-            let rail = SCNNode(geometry: SCNBox(width: 0.25, height: 0.5, length: 170, chamferRadius: 0.03))
-            rail.geometry?.materials = [mat(UIColor(red: 0.85, green: 0.25, blue: 0.25, alpha: 1))]
-            rail.position = SCNVector3(x, 0.25, -60)
-            rootNode.addChildNode(rail)
-        }
+        // Water: one huge dark plane under everything
+        let water = SCNNode(geometry: SCNPlane(width: 240, height: 260))
+        water.geometry?.materials = [mat(UIColor(red: 0.03, green: 0.045, blue: 0.085, alpha: 1))]
+        water.eulerAngles.x = -Float.pi / 2
+        water.position = SCNVector3(0, -0.6, -60)
+        rootNode.addChildNode(water)
 
-        // Scrolling dashed dividers
-        let dashMat = mat(UIColor(white: 0.35, alpha: 1))
+        // Scrolling moonlit wave dashes on the water (2 rows per side)
+        let waveMat = mat(UIColor(white: 0.50, alpha: 1))
         var z: Float = -140
         while z < 24 {
-            for x in [-1.1, 1.1] as [Float] {
-                let dash = SCNNode(geometry: SCNBox(width: 0.14, height: 0.05, length: 1.4, chamferRadius: 0.02))
-                dash.geometry?.materials = [dashMat]
-                dash.position = SCNVector3(x, 0.05, z)
-                rootNode.addChildNode(dash)
-                scrollers.append(dash)
+            for x in [-11.0, -7.0, 7.0, 11.0] as [Float] {
+                let wave = SCNNode(geometry: SCNBox(width: 1.7, height: 0.03, length: 0.12, chamferRadius: 0.01))
+                wave.geometry?.materials = [waveMat]
+                wave.position = SCNVector3(x + Float.random(in: -0.7...0.7), -0.55, z)
+                rootNode.addChildNode(wave)
+                scrollers.append(wave)
             }
             z += 4
         }
 
-        // Scrolling cross ties
-        let tieMat = mat(UIColor(white: 0.16, alpha: 1))
+        // Wooden pier: dark base + scrolling individual planks with gaps
+        let deckBase = SCNNode(geometry: SCNBox(width: 9.4, height: 0.3, length: 176, chamferRadius: 0))
+        deckBase.geometry?.materials = [mat(UIColor(red: 0.20, green: 0.17, blue: 0.145, alpha: 1))]
+        deckBase.position = SCNVector3(0, -0.20, -60)
+        rootNode.addChildNode(deckBase)
+
+        let plankMat = mat(UIColor(red: 0.30, green: 0.26, blue: 0.22, alpha: 1))
         z = -140
         while z < 24 {
-            let tie = SCNNode(geometry: SCNBox(width: 7.2, height: 0.03, length: 0.5, chamferRadius: 0))
-            tie.geometry?.materials = [tieMat]
-            tie.position = SCNVector3(0, 0.015, z)
-            rootNode.addChildNode(tie)
-            scrollers.append(tie)
-            z += 8
+            let plank = SCNNode(geometry: SCNBox(width: 9.4, height: 0.06, length: 1.7, chamferRadius: 0.01))
+            plank.geometry?.materials = [plankMat]
+            plank.position = SCNVector3(0, -0.03, z)
+            rootNode.addChildNode(plank)
+            scrollers.append(plank)
+            z += 2
         }
 
-        // Distant side blocks for depth
-        let blockMat = mat(UIColor(red: 0.09, green: 0.10, blue: 0.15, alpha: 1))
-        for i in 0..<12 {
-            let h = Float.random(in: 3...9)
-            let w = Float.random(in: 2...4)
-            let side: Float = (i % 2 == 0) ? -1 : 1
-            let block = SCNNode(geometry: SCNBox(width: CGFloat(w), height: CGFloat(h), length: CGFloat(w), chamferRadius: 0.1))
-            block.geometry?.materials = [blockMat]
-            block.position = SCNVector3(side * Float.random(in: 8...14), h / 2, Float.random(in: -120...10))
-            rootNode.addChildNode(block)
+        // Subtle lighter lane strips (weathered boards, no neon — film look)
+        for x in GameScene.laneX {
+            let strip = SCNNode(geometry: SCNBox(width: 1.9, height: 0.02, length: 176, chamferRadius: 0))
+            strip.geometry?.materials = [mat(UIColor(red: 0.36, green: 0.32, blue: 0.28, alpha: 1))]
+            strip.position = SCNVector3(x, 0.012, -60)
+            rootNode.addChildNode(strip)
         }
+
+        // Pier posts + rope rails. Each fence unit (post + rope to the next
+        // post) scrolls and wraps on its own: 40 units x 4.1 = 164, seamless.
+        let postMat = mat(UIColor(red: 0.24, green: 0.20, blue: 0.17, alpha: 1))
+        let ropeMat = mat(UIColor(white: 0.55, alpha: 1))
+        let fenceSpacing: Float = 4.1
+        var fz: Float = -140
+        while fz < 24 {
+            for side in [-4.9, 4.9] as [Float] {
+                let unit = SCNNode()
+                let post = SCNNode(geometry: SCNCylinder(radius: 0.14, height: 1.3))
+                post.geometry?.materials = [postMat]
+                post.position = SCNVector3(0, 0.65, 0)
+                unit.addChildNode(post)
+                let cap = SCNNode(geometry: SCNSphere(radius: 0.18, segmentCount: 12))
+                cap.geometry?.materials = [postMat]
+                cap.position = SCNVector3(0, 1.32, 0)
+                unit.addChildNode(cap)
+                let rope = SCNNode(geometry: SCNCylinder(radius: 0.045, height: CGFloat(fenceSpacing)))
+                rope.geometry?.materials = [ropeMat]
+                rope.eulerAngles.x = Float.pi / 2
+                rope.position = SCNVector3(0, 1.02, -fenceSpacing / 2)
+                unit.addChildNode(rope)
+                unit.position = SCNVector3(side, 0, fz)
+                rootNode.addChildNode(unit)
+                scrollers.append(unit)
+            }
+            fz += fenceSpacing
+        }
+
+        // Distant hill silhouettes
+        let hillMat = mat(UIColor(red: 0.05, green: 0.06, blue: 0.10, alpha: 1))
+        for (hx, hr) in [(-42, 20), (-16, 14), (10, 17), (38, 22), (62, 15)] as [(Float, CGFloat)] {
+            let hill = SCNNode(geometry: SCNSphere(radius: hr, segmentCount: 20))
+            hill.geometry?.materials = [hillMat]
+            hill.scale = SCNVector3(1.5, 0.42, 0.8)
+            hill.position = SCNVector3(hx, -1.5, -88)
+            rootNode.addChildNode(hill)
+        }
+
+        // Far-off riverboat silhouette with lit windows, drifting slowly
+        let boat = SCNNode()
+        let hullB = SCNNode(geometry: SCNBox(width: 15, height: 2.6, length: 4.2, chamferRadius: 0.2))
+        hullB.geometry?.materials = [mat(UIColor(white: 0.06, alpha: 1))]
+        hullB.position = SCNVector3(0, 1.0, 0)
+        boat.addChildNode(hullB)
+        let cabinB = SCNNode(geometry: SCNBox(width: 9.5, height: 2.1, length: 3.6, chamferRadius: 0.1))
+        cabinB.geometry?.materials = [mat(UIColor(white: 0.10, alpha: 1))]
+        cabinB.position = SCNVector3(0, 3.3, 0)
+        boat.addChildNode(cabinB)
+        let stackB = SCNNode(geometry: SCNCylinder(radius: 0.5, height: 2.6))
+        stackB.geometry?.materials = [mat(UIColor(white: 0.05, alpha: 1))]
+        stackB.position = SCNVector3(-2.5, 5.2, 0)
+        boat.addChildNode(stackB)
+        let winMat = SCNMaterial()
+        winMat.diffuse.contents = UIColor(red: 1, green: 0.88, blue: 0.66, alpha: 1)
+        winMat.emission.contents = UIColor(red: 1, green: 0.88, blue: 0.66, alpha: 1)
+        for wx in stride(from: -3.4, through: 3.4, by: 1.7) {
+            let win = SCNNode(geometry: SCNBox(width: 0.7, height: 0.7, length: 0.1, chamferRadius: 0))
+            win.geometry?.materials = [winMat]
+            win.position = SCNVector3(Float(wx), 3.3, 1.85)
+            boat.addChildNode(win)
+        }
+        boat.position = SCNVector3(riverboatBaseX, -0.5, -80)
+        rootNode.addChildNode(boat)
+        riverboat = boat
     }
 
     private func buildPlayer() {
@@ -184,6 +281,33 @@ final class GameScene: SCNScene, SCNSceneRendererDelegate {
         p.position = SCNVector3(0, 0, 0)
         rootNode.addChildNode(p)
         player = p
+    }
+
+    /// Background cameos: 3 random roster characters (never the player) placed
+    /// as decoration — two on the pier edges, one on the distant riverboat.
+    /// Outside the lanes, so there's no collision confusion. Rebuilt on configure.
+    private func buildCameos() {
+        for c in cameos { c.removeFromParentNode() }
+        cameos.removeAll()
+        let others = GameCharacter.roster.map { $0.id }.filter { $0 != characterID }.shuffled()
+        // (x, y, z, scale)
+        let spots: [(Float, Float, Float, CGFloat)] = [
+            (-4.6, 0, -18, 1.0),
+            (4.6, 0, -18, 1.0),
+            (riverboatBaseX, 1.2, -80, 2.5),
+        ]
+        for (i, spot) in spots.enumerated() where i < others.count {
+            let n = CharacterRenderer.node(for: others[i])
+            n.position = SCNVector3(spot.0, spot.1, spot.2)
+            n.scale = SCNVector3(spot.3, spot.3, spot.3)
+            let bob = SCNAction.sequence([
+                SCNAction.moveBy(x: 0, y: 0.12, z: 0, duration: 1.1),
+                SCNAction.moveBy(x: 0, y: -0.12, z: 0, duration: 1.1),
+            ])
+            n.runAction(SCNAction.repeatForever(bob))
+            rootNode.addChildNode(n)
+            cameos.append(n)
+        }
     }
 
     // MARK: - Update loop
@@ -202,6 +326,11 @@ final class GameScene: SCNScene, SCNSceneRendererDelegate {
 
         elapsed += dt
         scrollSpeed = min(maxSpeed, baseSpeed + speedRamp * Float(elapsed))
+
+        // Ambient: the distant riverboat drifts slowly (dressing only).
+        if let boat = riverboat {
+            boat.position.x = riverboatBaseX + sin(Float(elapsed) * 0.08) * 5
+        }
 
         // score = distance in meters, doubled while multiplier is live
         let mult: Double = multiplierTime > 0 ? 2 : 1
