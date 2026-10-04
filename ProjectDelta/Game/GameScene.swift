@@ -20,6 +20,12 @@ final class GameScene: SCNScene, SCNSceneRendererDelegate {
 
     static let laneX: [Float] = [-2.2, 0, 2.2]
 
+    private func sphere(_ r: CGFloat, _ seg: Int) -> SCNSphere {
+        let s = SCNSphere(radius: r)
+        s.segmentCount = seg
+        return s
+    }
+
     func configure(characterID: String) {
         self.characterID = characterID
         buildPlayer()
@@ -135,7 +141,7 @@ final class GameScene: SCNScene, SCNSceneRendererDelegate {
         let moonMat = SCNMaterial()
         moonMat.diffuse.contents = UIColor(white: 0.95, alpha: 1)
         moonMat.emission.contents = UIColor(white: 0.9, alpha: 1)
-        let moon = SCNNode(geometry: SCNSphere(radius: 5, segmentCount: 32))
+        let moon = SCNNode(geometry: sphere(5, 32))
         moon.geometry?.materials = [moonMat]
         moon.position = SCNVector3(-24, 22, -70)
         rootNode.addChildNode(moon)
@@ -143,8 +149,8 @@ final class GameScene: SCNScene, SCNSceneRendererDelegate {
         let haloMat = SCNMaterial()
         haloMat.diffuse.contents = UIColor(white: 1, alpha: 1)
         haloMat.emission.contents = UIColor(white: 0.55, alpha: 1)
-        haloMat.transparency.contents = 0.14
-        let halo = SCNNode(geometry: SCNSphere(radius: 8.5, segmentCount: 24))
+        haloMat.transparency = 0.14
+        let halo = SCNNode(geometry: sphere(8.5, 24))
         halo.geometry?.materials = [haloMat]
         halo.position = moon.position
         rootNode.addChildNode(halo)
@@ -154,7 +160,7 @@ final class GameScene: SCNScene, SCNSceneRendererDelegate {
         starMat.diffuse.contents = UIColor(white: 1, alpha: 1)
         starMat.emission.contents = UIColor(white: 1, alpha: 1)
         for _ in 0..<44 {
-            let star = SCNNode(geometry: SCNSphere(radius: Float.random(in: 0.10...0.26), segmentCount: 6))
+            let star = SCNNode(geometry: sphere(Float.random(in: 0.10...0.26), 6))
             star.geometry?.materials = [starMat]
             star.position = SCNVector3(Float.random(in: -90...90),
                                        Float.random(in: 13...46),
@@ -221,7 +227,7 @@ final class GameScene: SCNScene, SCNSceneRendererDelegate {
                 post.geometry?.materials = [postMat]
                 post.position = SCNVector3(0, 0.65, 0)
                 unit.addChildNode(post)
-                let cap = SCNNode(geometry: SCNSphere(radius: 0.18, segmentCount: 12))
+                let cap = SCNNode(geometry: sphere(0.18, 12))
                 cap.geometry?.materials = [postMat]
                 cap.position = SCNVector3(0, 1.32, 0)
                 unit.addChildNode(cap)
@@ -240,7 +246,7 @@ final class GameScene: SCNScene, SCNSceneRendererDelegate {
         // Distant hill silhouettes
         let hillMat = mat(UIColor(red: 0.05, green: 0.06, blue: 0.10, alpha: 1))
         for (hx, hr) in [(-42, 20), (-16, 14), (10, 17), (38, 22), (62, 15)] as [(Float, CGFloat)] {
-            let hill = SCNNode(geometry: SCNSphere(radius: hr, segmentCount: 20))
+            let hill = SCNNode(geometry: sphere(hr, 20))
             hill.geometry?.materials = [hillMat]
             hill.scale = SCNVector3(1.5, 0.42, 0.8)
             hill.position = SCNVector3(hx, -1.5, -88)
