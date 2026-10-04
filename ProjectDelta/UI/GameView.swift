@@ -115,6 +115,7 @@ struct GameView: View {
     @State private var hudCoins = 0
     @State private var isPaused = false
     @State private var finished = false
+    @State private var reelCard: Int?
 
     private let scoreTimer = Timer.publish(every: 0.25, on: .main, in: .common).autoconnect()
 
@@ -146,6 +147,12 @@ struct GameView: View {
             HUDView(score: hudScore, coins: hudCoins, onPause: pauseGame)
                 .opacity(isPaused ? 0 : 1)
 
+            // Silent-film reel title card (hit-testing off so swipes pass through)
+            if let reel = reelCard {
+                ReelTitleCard(reel: reel)
+                    .allowsHitTesting(false)
+            }
+
             if isPaused && !finished {
                 pauseOverlay
             }
@@ -155,6 +162,14 @@ struct GameView: View {
             guard !isPaused, !finished, let scene = controller?.scene else { return }
             if let provider = scene as? ScoreProviding {
                 hudScore = provider.currentScore
+            }
+            if scene.reelDidChange {
+                scene.reelDidChange = false
+                reelCard = scene.reel
+                Task {
+                    try? await Task.sleep(nanoseconds: 2_600_000_000)
+                    await MainActor.run { reelCard = nil }
+                }
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
@@ -193,6 +208,49 @@ struct GameView: View {
                 .buttonStyle(DeltaSecondaryButtonStyle())
             }
             .padding(40)
+        }
+    }
+}
+
+/// Silent-film title card shown when a new reel (level) begins.
+private struct ReelTitleCard: View {
+    let reel: Int
+
+    var body: some View {
+        VStack {
+            Spacer()
+            VStack(spacing: 12) {
+                Text("REEL \(reel)")
+                    .font(.system(size: 16, weight: .bold, design: .serif))
+                    .tracking(4)
+                    .foregroundColor(DeltaTheme.gold)
+                Text(GameScene.reelTitle(reel))
+                    .font(.system(size: 30, weight: .black, design: .serif))
+                    .foregroundColor(DeltaTheme.cream)
+                    .multilineTextAlignment(.center)
+                Text(GameScene.reelBlurb(reel))
+                    .font(.system(size: 15, design: .serif))
+                    .foregroundColor(DeltaTheme.cream.opacity(0.85))
+                    .multilineTextAlignment(.center)
+                    .lineSpacing(4)
+            }
+            .padding(.horizontal, 28)
+            .padding(.vertical, 24)
+            .background(
+                RoundedRectangle(cornerRadius: 4)
+                    .fill(Color.black.opacity(0.88))
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 4)
+                    .stroke(DeltaTheme.gold, lineWidth: 2)
+                    .padding(3)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 2)
+                            .stroke(DeltaTheme.gold.opacity(0.6), lineWidth: 1)
+                    )
+            )
+            .padding(.horizontal, 40)
+            Spacer()
         }
     }
 }
