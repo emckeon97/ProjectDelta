@@ -148,10 +148,12 @@ final class AdManager: NSObject, ObservableObject {
     /// Call on every game over. Shows an interstitial on every 3rd game over
     /// (subject to the 60-second cooldown) and keeps the next one preloading
     /// otherwise. Finds the presenting view controller internally.
+    /// Every 5th game over shows an interstitial — frequent enough to earn,
+    /// rare enough to keep players.
     func gameOverOccurred() {
         gameOverCount += 1
         #if !targetEnvironment(macCatalyst)
-        guard gameOverCount % 3 == 0 else {
+        guard gameOverCount % 5 == 0 else {
             if interstitialAd == nil { loadInterstitial() }
             return
         }
