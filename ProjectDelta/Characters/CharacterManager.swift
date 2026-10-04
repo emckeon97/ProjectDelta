@@ -22,7 +22,7 @@ final class CharacterManager: ObservableObject {
         // Build the unlock set in a local first — calling mutating methods on
         // self's properties isn't allowed until every stored property is set.
         var unlocked = Set(defaults.stringArray(forKey: Self.unlockedKey) ?? [])
-        unlocked.insert("willie") // Willie is always available.
+        unlocked.insert("popeye") // Popeye is the starter.
         self.unlockedIDs = unlocked
         self.highScore = defaults.integer(forKey: Self.highScoreKey)
 
@@ -30,7 +30,7 @@ final class CharacterManager: ObservableObject {
         if let savedSelected, GameCharacter.roster.contains(where: { $0.id == savedSelected }) {
             self.selectedID = savedSelected
         } else {
-            self.selectedID = "willie"
+            self.selectedID = "popeye"
         }
     }
 
