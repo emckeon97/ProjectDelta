@@ -22,8 +22,8 @@ final class Player: SCNNode {
     private var landT: Double = 1.0    // 0...0.22 land-squash progress; 1 = inactive
     private var runPhase: Double = 0
 
-    private let jumpDuration = 0.55
-    private let rollDuration = 0.6
+    private let jumpDuration = 0.88
+    private let rollDuration = 0.75
     private let laneSpeed: Float = 12
 
     init(characterID: String) {
@@ -88,7 +88,7 @@ final class Player: SCNNode {
         let targetLean = max(-0.3, min(0.3, lateral * 0.15))
         body.eulerAngles.z += (targetLean - body.eulerAngles.z) * min(1, Float(dt) * 10)
 
-        // jump arc: y = 3.2 * sin(pi * t)
+        // jump arc: y = 3.5 * sin(pi * t)
         if jumpT < 1.0 {
             jumpT = min(1.0, jumpT + dt / jumpDuration)
             if jumpT >= 1.0 {
@@ -96,7 +96,7 @@ final class Player: SCNNode {
                 state = .running
                 landT = 0.0
             } else {
-                playerY = 3.2 * Float(sin(.pi * jumpT))
+                playerY = 3.5 * Float(sin(.pi * jumpT))
                 // jump stretch: tall and thin mid-air
                 let s = Float(sin(.pi * jumpT))
                 body.scale = SCNVector3(1 - 0.07 * s, 1 + 0.10 * s, 1)
