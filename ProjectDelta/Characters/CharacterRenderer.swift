@@ -57,7 +57,9 @@ enum CharacterRenderer {
     // MARK: - Smooth geometry
 
     private static func ball(_ r: CGFloat, _ seg: Int = 48) -> SCNSphere {
-        SCNSphere(radius: r, segmentCount: seg)
+        let s = SCNSphere(radius: r)
+        s.segmentCount = seg
+        return s
     }
 
     private static func tube(_ r: CGFloat, _ h: CGFloat) -> SCNCylinder {
