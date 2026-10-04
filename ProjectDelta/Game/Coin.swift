@@ -13,8 +13,8 @@ final class Coin: SCNNode {
     private func build() {
         let gold = SCNMaterial()
         gold.diffuse.contents = UIColor(red: 0.96, green: 0.76, blue: 0.26, alpha: 1)
-        gold.metalness = 0.6
-        gold.roughness = 0.35
+        gold.metalness.contents = 0.6
+        gold.roughness.contents = 0.35
 
         let torus = SCNTorus(ringRadius: 0.28, pipeRadius: 0.11)
         torus.materials = [gold]
@@ -23,8 +23,8 @@ final class Coin: SCNNode {
         let disc = SCNNode(geometry: SCNCylinder(radius: 0.2, height: 0.06))
         let light = SCNMaterial()
         light.diffuse.contents = UIColor(red: 1.0, green: 0.9, blue: 0.55, alpha: 1)
-        light.metalness = 0.6
-        light.roughness = 0.35
+        light.metalness.contents = 0.6
+        light.roughness.contents = 0.35
         disc.geometry?.materials = [light]
         disc.eulerAngles.x = Float.pi / 2
         addChildNode(disc)
