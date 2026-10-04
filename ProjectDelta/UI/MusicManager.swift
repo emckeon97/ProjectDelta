@@ -21,8 +21,10 @@ final class MusicManager: ObservableObject {
     /// Starts the loop (or resumes after unmute). Safe to call repeatedly.
     func play() {
         guard !isMuted else { return }
-        if player == nil {
-            guard let url = Bundle.main.url(forResource: "delta_ragtime", withExtension: "mp3") else { return }
+        if let p = player { p.play(); return }
+        guard let url = Bundle.main.url(forResource: "delta_ragtime", withExtension: "mp3") else { return }
+        // Audio session setup can block: keep it off the main thread.
+        DispatchQueue.global(qos: .utility).async { [weak self] in
             do {
                 try AVAudioSession.sharedInstance().setCategory(.ambient, mode: .default)
                 try AVAudioSession.sharedInstance().setActive(true)
@@ -30,12 +32,15 @@ final class MusicManager: ObservableObject {
                 p.numberOfLoops = -1
                 p.volume = 0.45
                 p.prepareToPlay()
-                player = p
+                DispatchQueue.main.async {
+                    guard let self = self, !self.isMuted else { return }
+                    self.player = p
+                    p.play()
+                }
             } catch {
-                return
+                // no-op: music stays silent
             }
         }
-        player?.play()
     }
 
     func stop() {
