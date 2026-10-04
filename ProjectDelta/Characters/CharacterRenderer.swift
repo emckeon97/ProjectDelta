@@ -33,12 +33,12 @@ enum CharacterRenderer {
         return n
     }
 
-    private static func sphere(_ r: CGFloat, _ color: UIColor,
+    @discardableResult private static func sphere(_ r: CGFloat, _ color: UIColor,
                                _ x: CGFloat, _ y: CGFloat, _ z: CGFloat) -> SCNNode {
         part(SCNSphere(radius: r), color: color, x: x, y: y, z: z)
     }
 
-    private static func box(_ w: CGFloat, _ h: CGFloat, _ d: CGFloat, _ color: UIColor,
+    @discardableResult private static func box(_ w: CGFloat, _ h: CGFloat, _ d: CGFloat, _ color: UIColor,
                             _ x: CGFloat, _ y: CGFloat, _ z: CGFloat) -> SCNNode {
         part(SCNBox(width: w, height: h, length: d, chamferRadius: 0.02),
              color: color, x: x, y: y, z: z)
