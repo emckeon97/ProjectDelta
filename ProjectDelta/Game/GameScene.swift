@@ -43,9 +43,9 @@ final class GameScene: SCNScene, SCNSceneRendererDelegate {
 
     private let spawnZ: Float = -70
     private let despawnZ: Float = 12
-    private let baseSpeed: Float = 8
-    private let maxSpeed: Float = 22
-    private let speedRamp: Float = 0.35     // u/s gained per second
+    private let baseSpeed: Float = 10
+    private let maxSpeed: Float = 26
+    private let speedRamp: Float = 0.5      // u/s gained per second
     private let powerDuration: TimeInterval = 8
     private let magnetRadius: Float = 6
     private let magnetPull: Float = 14
@@ -69,7 +69,7 @@ final class GameScene: SCNScene, SCNSceneRendererDelegate {
 
     private var lastUpdate: TimeInterval = 0
     private var elapsed: TimeInterval = 0
-    private var scrollSpeed: Float = 8
+    private var scrollSpeed: Float = 10
     private var score: Double = 0
     private var coinCount = 0
 
@@ -457,8 +457,8 @@ final class GameScene: SCNScene, SCNSceneRendererDelegate {
         rowTimer -= dt
         if rowTimer <= 0 {
             spawnObstacleRow()
-            // keep a minimum physical gap between rows so lane changes stay possible
-            rowTimer = max(0.55, 9.0 / Double(scrollSpeed))
+            // keep breathing room between rows so jumps and lane changes stay possible
+            rowTimer = max(0.7, 13.0 / Double(scrollSpeed))
         }
 
         coinTimer -= dt
@@ -478,13 +478,13 @@ final class GameScene: SCNScene, SCNSceneRendererDelegate {
     /// trains, so there is always a survivable path.
     private func spawnObstacleRow() {
         var kinds: [ObstacleKind?] = [nil, nil, nil]
-        let blockedCount = Int.random(in: 1...2)
+        let blockedCount = Double.random(in: 0...1) < 0.45 ? 2 : 1
         let lanes = [0, 1, 2].shuffled()
         for i in 0..<blockedCount {
             let r = Double.random(in: 0...1)
             let kind: ObstacleKind
-            if r < 0.40 { kind = .barrier }
-            else if r < 0.70 { kind = .overhead }
+            if r < 0.38 { kind = .barrier }
+            else if r < 0.68 { kind = .overhead }
             else { kind = .train }
             kinds[lanes[i]] = kind
         }
