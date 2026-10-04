@@ -9,7 +9,7 @@ import UIKit
 /// (white + pupil + highlight); matte cartoon materials.
 enum CharacterRenderer {
 
-    static func node(for id: String) -> SCNNode {
+    private static func legacyNode(for id: String) -> SCNNode {
         switch id {
         case "felix": return felix()
         case "oswald": return oswald()
@@ -24,6 +24,40 @@ enum CharacterRenderer {
         case "bimbo": return bimbo()
         default: return willie()
         }
+    }
+
+    /// Character node for gameplay: a billboarded 2D sprite when art exists
+    /// (crisp unlit cartoon look, always faces the camera), falling back to
+    /// the code-drawn 3D model otherwise. Container origin at feet, ~1.75 tall.
+    static func node(for id: String) -> SCNNode {
+        let container = SCNNode()
+        let inner = spriteNode(for: id) ?? legacyNode(for: id)
+        container.addChildNode(inner)
+        return container
+    }
+
+    /// Billboarded sprite plane for a character, or nil when no art is bundled.
+    private static func spriteNode(for id: String) -> SCNNode? {
+        guard let img = UIImage(named: id) else { return nil }
+        let height: CGFloat = 1.75
+        let width = height * img.size.width / img.size.height
+        let plane = SCNPlane(width: width, height: height)
+        let mat = SCNMaterial()
+        mat.diffuse.contents = img
+        mat.lightingModel = .constant
+        plane.materials = [mat]
+        let node = SCNNode(geometry: plane)
+        node.position.y = Float(height / 2)
+        let billboard = SCNBillboardConstraint()
+        billboard.freeAxes = .Y
+        node.constraints = [billboard]
+        node.castsShadow = false
+        return node
+    }
+
+    /// Whether bundled 2D sprite art exists for a character id.
+    static func hasSprite(for id: String) -> Bool {
+        UIImage(named: id) != nil
     }
 
     // MARK: - Materials
