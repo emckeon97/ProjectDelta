@@ -75,77 +75,127 @@ private struct CharacterPreviewRepresentable: UIViewRepresentable {
     }
 }
 
-/// Main menu: title, selected character, stats, Play / Characters, banner ad.
+/// Main menu: 1930s movie-poster marquee.
 struct MainMenuView: View {
     @EnvironmentObject private var manager: CharacterManager
+    @ObservedObject private var music = MusicManager.shared
     var onPlay: () -> Void
     var onCharacters: () -> Void
 
     var body: some View {
         VStack(spacing: 0) {
-            Spacer(minLength: 24)
+            Spacer(minLength: 20)
 
-            Text("PROJECT")
-                .font(.system(size: 52, weight: .black, design: .rounded))
-                .italic()
-                .foregroundColor(.white)
-            Text("DELTA")
-                .font(.system(size: 52, weight: .black, design: .rounded))
-                .italic()
-                .foregroundStyle(
-                    LinearGradient(
-                        colors: [.yellow, .orange, .red],
-                        startPoint: .leading,
-                        endPoint: .trailing
-                    )
-                )
-            Text("starring public-domain legends")
-                .font(.subheadline)
-                .foregroundColor(.white.opacity(0.65))
-                .padding(.top, 6)
+            Text("NOW SHOWING")
+                .font(.system(size: 13, weight: .semibold, design: .serif))
+                .tracking(6)
+                .foregroundColor(DeltaTheme.cream.opacity(0.75))
+
+            MarqueeLights()
+                .padding(.vertical, 10)
+
+            Text("PROJECT DELTA")
+                .font(.system(size: 44, weight: .black, design: .serif))
+                .tracking(2)
+                .minimumScaleFactor(0.75)
+                .lineLimit(1)
+                .foregroundColor(DeltaTheme.cream)
+                .padding(.horizontal, 20)
+
+            Text("A STEAMBOAT CARTOON")
+                .font(.system(size: 14, weight: .bold, design: .serif))
+                .tracking(5)
+                .foregroundColor(DeltaTheme.gold)
+                .padding(.top, 8)
 
             CharacterPreviewView(characterID: manager.selectedID)
                 .frame(width: 110, height: 140)
-                .padding(.top, 20)
-            Text(manager.selectedCharacter.name)
-                .font(.headline)
-                .foregroundColor(.white.opacity(0.9))
+                .padding(.top, 14)
+            Text(manager.selectedCharacter.name.uppercased())
+                .font(.system(size: 15, weight: .bold, design: .serif))
+                .tracking(2)
+                .foregroundColor(DeltaTheme.cream.opacity(0.9))
 
-            Spacer(minLength: 16)
+            Spacer(minLength: 14)
 
             HStack(spacing: 16) {
-                statPill(icon: "🪙", value: "\(manager.coins)")
-                statPill(icon: "🏆", value: "\(manager.highScore) m")
+                statPill(value: "🪙 \(manager.coins)")
+                statPill(value: "🏆 \(manager.highScore) m")
             }
-            .padding(.bottom, 20)
+            .padding(.bottom, 18)
 
             Button(action: onPlay) {
-                Text("▶  PLAY")
+                VStack(spacing: 3) {
+                    Text("★ ADMIT ONE ★")
+                        .font(.system(size: 11, weight: .bold, design: .serif))
+                        .tracking(3)
+                    Text("PLAY")
+                        .font(.system(size: 30, weight: .black, design: .serif))
+                        .tracking(5)
+                }
+                .foregroundColor(DeltaTheme.ink)
+                .padding(.horizontal, 54)
+                .padding(.vertical, 13)
+                .background(
+                    RoundedRectangle(cornerRadius: 10)
+                        .fill(DeltaTheme.gold)
+                        .shadow(color: DeltaTheme.gold.opacity(0.35), radius: 12)
+                )
             }
-            .buttonStyle(DeltaButtonStyle())
             .padding(.bottom, 12)
 
             Button(action: onCharacters) {
-                Text("Characters")
+                Text("MEET THE STARS")
             }
             .buttonStyle(DeltaSecondaryButtonStyle())
 
-            Spacer(minLength: 16)
+            Spacer(minLength: 12)
+
+            // Billing block — the full roster, movie-poster style.
+            Text(manager.characters.map { $0.name.uppercased() }.joined(separator: "   •   "))
+                .font(.system(size: 9, weight: .medium, design: .serif))
+                .tracking(1)
+                .foregroundColor(DeltaTheme.cream.opacity(0.45))
+                .multilineTextAlignment(.center)
+                .lineLimit(3)
+                .padding(.horizontal, 28)
+                .padding(.bottom, 8)
+
+            Text("Music: “The Entertainer” by Kevin MacLeod (incompetech.com) · CC BY 4.0")
+                .font(.system(size: 9))
+                .foregroundColor(DeltaTheme.cream.opacity(0.35))
+                .padding(.bottom, 6)
+
             AdBannerView()
         }
-        .background(Color.black.ignoresSafeArea())
+        .background(DeltaTheme.ink.ignoresSafeArea())
+        .overlay(alignment: .topTrailing) {
+            Button {
+                music.toggleMute()
+            } label: {
+                Image(systemName: music.isMuted ? "speaker.slash.fill" : "speaker.wave.2.fill")
+                    .font(.title3)
+                    .foregroundColor(DeltaTheme.gold)
+                    .padding(12)
+                    .background(DeltaTheme.cream.opacity(0.06))
+                    .cornerRadius(12)
+            }
+            .padding(.top, 54)
+            .padding(.trailing, 16)
+        }
     }
 
-    private func statPill(icon: String, value: String) -> some View {
-        HStack(spacing: 6) {
-            Text(icon)
-            Text(value)
-                .font(.system(size: 18, weight: .bold, design: .rounded))
-                .foregroundColor(.white)
-        }
-        .padding(.horizontal, 16)
-        .padding(.vertical, 8)
-        .background(Color.white.opacity(0.08))
-        .cornerRadius(14)
+    private func statPill(value: String) -> some View {
+        Text(value)
+            .font(.system(size: 17, weight: .bold, design: .serif))
+            .foregroundColor(DeltaTheme.gold)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 8)
+            .background(DeltaTheme.cream.opacity(0.07))
+            .cornerRadius(14)
+            .overlay(
+                RoundedRectangle(cornerRadius: 14)
+                    .stroke(DeltaTheme.gold.opacity(0.35), lineWidth: 1)
+            )
     }
 }
