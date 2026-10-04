@@ -27,7 +27,7 @@ final class CharacterManager: ObservableObject {
         // Willie is always available.
         self.unlockedIDs.insert("willie")
 
-        if let savedSelected, characters.contains(where: { $0.id == savedSelected }) {
+        if let savedSelected, GameCharacter.roster.contains(where: { $0.id == savedSelected }) {
             self.selectedID = savedSelected
         } else {
             self.selectedID = "willie"
