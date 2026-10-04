@@ -19,6 +19,7 @@ final class Player: SCNNode {
     private var targetX: Float = 0
     private var jumpT: Double = 1.0    // 0...1 jump progress; 1 = grounded
     private var rollT: Double = 1.0    // 0...1 roll progress; 1 = standing
+    private var landT: Double = 1.0    // 0...0.22 land-squash progress; 1 = inactive
     private var runPhase: Double = 0
 
     private let jumpDuration = 0.55
@@ -82,14 +83,23 @@ final class Player: SCNNode {
             position.x += (dx > 0 ? step : -step)
         }
 
+        // lane-change lean: tilt into the glide direction
+        let lateral = targetX - position.x
+        let targetLean = max(-0.3, min(0.3, lateral * 0.15))
+        body.eulerAngles.z += (targetLean - body.eulerAngles.z) * min(1, Float(dt) * 10)
+
         // jump arc: y = 3.2 * sin(pi * t)
         if jumpT < 1.0 {
             jumpT = min(1.0, jumpT + dt / jumpDuration)
             if jumpT >= 1.0 {
                 playerY = 0
                 state = .running
+                landT = 0.0
             } else {
                 playerY = 3.2 * Float(sin(.pi * jumpT))
+                // jump stretch: tall and thin mid-air
+                let s = Float(sin(.pi * jumpT))
+                body.scale = SCNVector3(1 - 0.07 * s, 1 + 0.10 * s, 1)
             }
             body.position.y = playerY
         }
@@ -101,6 +111,15 @@ final class Player: SCNNode {
                 endRoll()
                 state = .running
             }
+        }
+
+        // land squash: brief wide-and-flat on touchdown (never while rolling)
+        if state == .running && landT < 0.22 {
+            landT += dt
+            let k = 1 - Float(landT / 0.22)
+            body.scale = SCNVector3(1 + 0.10 * k, 1 - 0.16 * k, 1)
+        } else if state == .running && landT >= 0.22 && !isRolling {
+            body.scale = SCNVector3(1, 1, 1)
         }
 
         // subtle running bob
