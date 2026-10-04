@@ -116,6 +116,8 @@ struct GameView: View {
     @State private var isPaused = false
     @State private var finished = false
     @State private var reelCard: Int?
+    @State private var showHowTo = false
+    @AppStorage("delta.sawHowTo") private var sawHowTo = false
 
     private let scoreTimer = Timer.publish(every: 0.25, on: .main, in: .common).autoconnect()
 
@@ -130,7 +132,13 @@ struct GameView: View {
                     onGameOver(score, coins)
                 },
                 onCoin: { hudCoins += 1 },
-                onReady: { controller = $0 }
+                onReady: { vc in
+                    controller = vc
+                    if !sawHowTo {
+                        showHowTo = true
+                        vc.setPaused(true)
+                    }
+                }
             )
             .ignoresSafeArea()
 
@@ -155,6 +163,10 @@ struct GameView: View {
 
             if isPaused && !finished {
                 pauseOverlay
+            }
+
+            if showHowTo && !finished {
+                howToPlayOverlay
             }
         }
         .background(Color.black.ignoresSafeArea())
@@ -208,6 +220,47 @@ struct GameView: View {
                 .buttonStyle(DeltaSecondaryButtonStyle())
             }
             .padding(40)
+        }
+    }
+
+    /// First-run how-to-play card. Pauses the scene until dismissed.
+    private var howToPlayOverlay: some View {
+        ZStack {
+            Color.black.opacity(0.78).ignoresSafeArea()
+            VStack(spacing: 14) {
+                Text("HOW TO PLAY")
+                    .font(.system(size: 22, weight: .black, design: .serif))
+                    .tracking(3)
+                    .foregroundColor(DeltaTheme.gold)
+                howToRow(glyph: "← →", text: "Swipe sideways to change lanes")
+                howToRow(glyph: "↑", text: "Swipe up to leap the rowboats")
+                howToRow(glyph: "↓", text: "Swipe down to roll under the footbridges")
+                howToRow(glyph: "🚢", text: "Dodge the paddle-wheelers!")
+                Button("ROLL FILM") {
+                    sawHowTo = true
+                    showHowTo = false
+                    controller?.setPaused(false)
+                }
+                .buttonStyle(DeltaButtonStyle())
+                .padding(.top, 8)
+            }
+            .padding(28)
+            .background(DeltaTheme.ink)
+            .border(DeltaTheme.gold, width: 2)
+            .padding(.horizontal, 40)
+        }
+    }
+
+    private func howToRow(glyph: String, text: String) -> some View {
+        HStack {
+            Text(glyph)
+                .font(.system(size: 22))
+                .foregroundColor(DeltaTheme.gold)
+                .frame(width: 56)
+            Text(text)
+                .font(.system(size: 16, design: .serif))
+                .foregroundColor(DeltaTheme.cream.opacity(0.9))
+            Spacer()
         }
     }
 }
