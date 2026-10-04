@@ -26,7 +26,7 @@ final class PowerUp: SCNNode {
     private func mat(_ color: UIColor) -> SCNMaterial {
         let m = SCNMaterial()
         m.diffuse.contents = color
-        m.roughness = 0.5
+        m.roughness.contents = 0.5
         return m
     }
 
