@@ -1,6 +1,6 @@
 import Foundation
 
-/// A playable character in Project Delta — all public-domain cartoon stars.
+/// A playable character in Pier Pressure — all public-domain cartoon stars.
 struct GameCharacter: Identifiable, Codable, Hashable {
     let id: String          // "willie", "felix", "pete", ... (12 total)
     let name: String        // "Steamboat Willie", etc.
