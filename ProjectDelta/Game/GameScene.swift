@@ -78,7 +78,7 @@ final class GameScene: SCNScene, SCNSceneRendererDelegate {
     private func mat(_ color: UIColor) -> SCNMaterial {
         let m = SCNMaterial()
         m.diffuse.contents = color
-        m.roughness = 0.7
+        m.roughness.contents = 0.7
         return m
     }
 
