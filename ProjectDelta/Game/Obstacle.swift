@@ -26,6 +26,12 @@ final class Obstacle: SCNNode {
 
     // MARK: - Art helpers
 
+    private func sphere(_ r: CGFloat, _ seg: Int) -> SCNSphere {
+        let s = SCNSphere(radius: r)
+        s.segmentCount = seg
+        return s
+    }
+
     private func mat(_ color: UIColor) -> SCNMaterial {
         let m = SCNMaterial()
         m.diffuse.contents = color
@@ -167,9 +173,9 @@ final class Obstacle: SCNNode {
         // static smoke puffs
         let smokeMat = SCNMaterial()
         smokeMat.diffuse.contents = UIColor(white: 0.7, alpha: 1)
-        smokeMat.transparency.contents = 0.45
+        smokeMat.transparency = 0.45
         for (sx, sy) in [(-0.4, 4.15), (0.4, 4.40), (0.0, 4.65)] as [(Float, Float)] {
-            let puff = SCNNode(geometry: SCNSphere(radius: 0.35, segmentCount: 12))
+            let puff = SCNNode(geometry: sphere(0.35, 12))
             puff.geometry?.materials = [smokeMat]
             puff.position = SCNVector3(sx, sy, -1.2)
             addChildNode(puff)
