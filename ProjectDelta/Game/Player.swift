@@ -69,6 +69,7 @@ final class Player: SCNNode {
     private func endRoll() {
         rollT = 1.0
         body.scale.y = 1.0
+        body.eulerAngles.z = 0  // the tumble ends on a multiple of 360°, so the snap is invisible
     }
 
     // MARK: - Update
@@ -83,10 +84,12 @@ final class Player: SCNNode {
             position.x += (dx > 0 ? step : -step)
         }
 
-        // lane-change lean: tilt into the glide direction
+        // lane-change lean: tilt into the glide direction (eases back after a roll)
         let lateral = targetX - position.x
         let targetLean = max(-0.3, min(0.3, lateral * 0.15))
-        body.eulerAngles.z += (targetLean - body.eulerAngles.z) * min(1, Float(dt) * 10)
+        if state != .rolling {
+            body.eulerAngles.z += (targetLean - body.eulerAngles.z) * min(1, Float(dt) * 10)
+        }
 
         // jump arc: y = 3.5 * sin(pi * t)
         if jumpT < 1.0 {
@@ -97,9 +100,6 @@ final class Player: SCNNode {
                 landT = 0.0
             } else {
                 playerY = 3.5 * Float(sin(.pi * jumpT))
-                // jump stretch: tall and thin mid-air
-                let s = Float(sin(.pi * jumpT))
-                body.scale = SCNVector3(1 - 0.07 * s, 1 + 0.10 * s, 1)
             }
             body.position.y = playerY
         }
@@ -113,13 +113,33 @@ final class Player: SCNNode {
             }
         }
 
-        // land squash: brief wide-and-flat on touchdown (never while rolling)
-        if state == .running && landT < 0.22 {
-            landT += dt
-            let k = 1 - Float(landT / 0.22)
-            body.scale = SCNVector3(1 + 0.10 * k, 1 - 0.16 * k, 1)
-        } else if state == .running && landT >= 0.22 && !isRolling {
-            body.scale = SCNVector3(1, 1, 1)
+        // --- cartoon squash & stretch (mirrors the Android port) ---
+        if state == .rolling {
+            // tumble: two full spins across the roll, slight tuck mid-roll
+            let rt = Float(rollT)
+            let tuck = Float(sin(.pi * Double(rt)))
+            body.eulerAngles.z = rt * Float(4 * .pi)
+            body.scale = SCNVector3(1 + 0.06 * tuck, 0.55 - 0.05 * tuck, 1)
+        } else {
+            var sx: Float = 1
+            var sy: Float = 1
+            if jumpT < 1.0 {
+                // jump stretch peaks mid-air
+                let s = Float(sin(.pi * jumpT))
+                sx = 1 - 0.16 * s
+                sy = 1 + 0.28 * s
+            } else if landT < 0.22 {
+                // landing squash, then recover
+                landT += dt
+                let k = 1 - Float(landT / 0.22)
+                sx = 1 + 0.14 * k
+                sy = 1 - 0.22 * k
+            }
+            // slide stretch while changing lanes
+            let slideK = min(1, abs(lateral) / 2.2)
+            sx += 0.16 * slideK
+            sy -= 0.06 * slideK
+            body.scale = SCNVector3(sx, sy, 1)
         }
 
         // subtle running bob
