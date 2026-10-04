@@ -1,4 +1,4 @@
-# Project Delta
+# Pier Pressure
 
 A Subway Surfers-style endless runner starring **public-domain cartoon legends** — that's the edge. All character art is drawn in code (rubber-hose 1930s style, no assets).
 
