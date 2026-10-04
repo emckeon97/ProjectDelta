@@ -55,7 +55,7 @@ final class GameScene: SKScene {
 
     private var lastUpdate: TimeInterval = 0
     private var elapsed: TimeInterval = 0
-    private var speed: CGFloat = 420
+    private var scrollSpeed: CGFloat = 420
     private var score: Double = 0
     private var coinCount = 0
 
@@ -130,11 +130,11 @@ final class GameScene: SKScene {
         guard dt > 0 else { return }
 
         elapsed += dt
-        speed = min(maxSpeed, baseSpeed + speedRamp * CGFloat(elapsed))
+        scrollSpeed = min(maxSpeed, baseSpeed + speedRamp * CGFloat(elapsed))
 
         // score from distance (1 m per 50 pt), doubled while multiplier is live
         let mult: Double = multiplierTime > 0 ? 2 : 1
-        score += Double(speed * CGFloat(dt) / 50) * mult
+        score += Double(scrollSpeed * CGFloat(dt) / 50) * mult
 
         if magnetTime > 0 { magnetTime -= dt }
         if multiplierTime > 0 { multiplierTime -= dt }
@@ -148,7 +148,7 @@ final class GameScene: SKScene {
     }
 
     private func scrollWorld(dt: TimeInterval) {
-        let dy = speed * CGFloat(dt)
+        let dy = scrollSpeed * CGFloat(dt)
         for ob in obstacles { ob.position.y -= dy }
         for c in coins { c.position.y -= dy }
         for p in powerUps { p.position.y -= dy }
@@ -247,7 +247,7 @@ final class GameScene: SKScene {
         if rowTimer <= 0 {
             spawnObstacleRow()
             // keep a minimum physical gap between rows so lane changes stay possible
-            rowTimer = max(0.55, 470 / speed)
+            rowTimer = max(0.55, 470 / scrollSpeed)
         }
 
         coinTimer -= dt
