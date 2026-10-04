@@ -10,7 +10,7 @@ struct GameCharacter: Identifiable, Codable, Hashable {
     static let roster: [GameCharacter] = [
         GameCharacter(
             id: "willie",
-            name: "Steamboat Willie",
+            name: "Mickey Mouse",
             price: 0,
             tagline: "The original star — quick on his feet."
         ),
