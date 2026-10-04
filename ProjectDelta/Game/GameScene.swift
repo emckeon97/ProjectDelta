@@ -160,11 +160,11 @@ final class GameScene: SCNScene, SCNSceneRendererDelegate {
         starMat.diffuse.contents = UIColor(white: 1, alpha: 1)
         starMat.emission.contents = UIColor(white: 1, alpha: 1)
         for _ in 0..<44 {
-            let star = SCNNode(geometry: sphere(Float.random(in: 0.10...0.26), 6))
+            let star = SCNNode(geometry: sphere(CGFloat.random(in: 0.10...0.26), 6))
             star.geometry?.materials = [starMat]
-            star.position = SCNVector3(Float.random(in: -90...90),
+            star.position = SCNVector3(Float.random(in: -90 ... 90),
                                        Float.random(in: 13...46),
-                                       Float.random(in: -85...-50))
+                                       Float.random(in: -85 ... -50))
             rootNode.addChildNode(star)
         }
 
@@ -182,7 +182,7 @@ final class GameScene: SCNScene, SCNSceneRendererDelegate {
             for x in [-11.0, -7.0, 7.0, 11.0] as [Float] {
                 let wave = SCNNode(geometry: SCNBox(width: 1.7, height: 0.03, length: 0.12, chamferRadius: 0.01))
                 wave.geometry?.materials = [waveMat]
-                wave.position = SCNVector3(x + Float.random(in: -0.7...0.7), -0.55, z)
+                wave.position = SCNVector3(x + Float.random(in: -0.7 ... 0.7), -0.55, z)
                 rootNode.addChildNode(wave)
                 scrollers.append(wave)
             }
