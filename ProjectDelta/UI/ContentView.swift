@@ -8,18 +8,21 @@ enum DeltaTheme {
     static let red   = Color(red: 0.690, green: 0.227, blue: 0.180)  // #B03A2E
 }
 
-/// A row of marquee chase lights — some lit, some dimmed.
+/// A row of marquee chase lights, animated in classic chase sequence.
 struct MarqueeLights: View {
     var count: Int = 18
 
     var body: some View {
-        HStack(spacing: 9) {
-            ForEach(0..<count, id: \.self) { i in
-                let lit = i % 3 != 0
-                Circle()
-                    .fill(lit ? DeltaTheme.gold : DeltaTheme.gold.opacity(0.22))
-                    .frame(width: 7, height: 7)
-                    .shadow(color: lit ? DeltaTheme.gold.opacity(0.9) : .clear, radius: 5)
+        TimelineView(.periodic(from: .now, by: 0.3)) { context in
+            let phase = Int(context.date.timeIntervalSinceReferenceDate / 0.3) % 3
+            HStack(spacing: 9) {
+                ForEach(0..<count, id: \.self) { i in
+                    let lit = (i + phase) % 3 != 0
+                    Circle()
+                        .fill(lit ? DeltaTheme.gold : DeltaTheme.gold.opacity(0.22))
+                        .frame(width: 7, height: 7)
+                        .shadow(color: lit ? DeltaTheme.gold.opacity(0.9) : .clear, radius: 5)
+                }
             }
         }
     }
