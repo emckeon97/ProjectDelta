@@ -1,5 +1,6 @@
 import SwiftUI
 import SpriteKit
+import Combine
 
 /// Optional hook: if GameScene exposes a live `currentScore`, the HUD polls it.
 /// If the scene doesn't conform, the HUD score simply stays at its last value —
