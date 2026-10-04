@@ -1,6 +1,6 @@
 import SceneKit
 
-/// Project Delta gameplay in 3D: a 3-lane endless runner.
+/// Pier Pressure gameplay in 3D: a 3-lane endless runner.
 /// Player runs at z = 0 facing -z; the world streams toward +z.
 ///
 /// Setting: a moonlit river in a 1930s cartoon — the player sprints along a
