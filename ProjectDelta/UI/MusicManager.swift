@@ -47,6 +47,10 @@ final class MusicManager: ObservableObject {
         player?.stop()
     }
 
+    func pause() {
+        player?.pause()
+    }
+
     func toggleMute() {
         isMuted.toggle()
         if isMuted {
