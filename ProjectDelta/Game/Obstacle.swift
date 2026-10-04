@@ -33,7 +33,7 @@ final class Obstacle: SCNNode {
         return m
     }
 
-    private func box(_ w: CGFloat, _ h: CGFloat, _ d: CGFloat, color: UIColor, _ x: Float, _ y: Float, _ z: Float = 0) -> SCNNode {
+    @discardableResult private func box(_ w: CGFloat, _ h: CGFloat, _ d: CGFloat, color: UIColor, _ x: Float, _ y: Float, _ z: Float = 0) -> SCNNode {
         let n = SCNNode(geometry: SCNBox(width: w, height: h, length: d, chamferRadius: 0.02))
         n.geometry?.materials = [mat(color)]
         n.position = SCNVector3(x, y, z)
@@ -41,7 +41,7 @@ final class Obstacle: SCNNode {
         return n
     }
 
-    private func sphere(_ r: CGFloat, color: UIColor, _ x: Float, _ y: Float, _ z: Float) -> SCNNode {
+    @discardableResult private func sphere(_ r: CGFloat, color: UIColor, _ x: Float, _ y: Float, _ z: Float) -> SCNNode {
         let n = SCNNode(geometry: SCNSphere(radius: r))
         n.geometry?.materials = [mat(color)]
         n.position = SCNVector3(x, y, z)
