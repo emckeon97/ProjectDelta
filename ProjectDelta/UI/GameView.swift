@@ -1,5 +1,5 @@
 import SwiftUI
-import SpriteKit
+import SceneKit
 import Combine
 
 /// Optional hook: if GameScene exposes a live `currentScore`, the HUD polls it.
@@ -9,27 +9,30 @@ protocol ScoreProviding {
     var currentScore: Int { get }
 }
 
-/// Hosts the SpriteKit runner. A fresh instance (and scene) is built per run.
+/// Hosts the SceneKit runner. A fresh instance (and scene) is built per run.
 final class GameViewController: UIViewController {
     var characterID: String = "willie"
     var onGameOver: ((Int, Int) -> Void)?
     var onCoin: (() -> Void)?
 
     private(set) var scene: GameScene?
-    private var skView: SKView?
+    private var scnView: SCNView?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .black
 
-        let skView = SKView(frame: view.bounds)
-        skView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        skView.ignoresSiblingOrder = true
-        view.addSubview(skView)
-        self.skView = skView
+        let scnView = SCNView(frame: view.bounds)
+        scnView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        scnView.backgroundColor = .black
+        scnView.allowsCameraControl = false
+        scnView.isPlaying = true
+        scnView.preferredFramesPerSecond = 60
+        scnView.antialiasingMode = .multisampling4X
+        view.addSubview(scnView)
+        self.scnView = scnView
 
-        let scene = GameScene(size: CGSize(width: 390, height: 844))
-        scene.scaleMode = .aspectFill
+        let scene = GameScene()
         scene.configure(characterID: characterID)
         scene.onGameOver = { [weak self] score, coins in
             DispatchQueue.main.async {
@@ -42,21 +45,22 @@ final class GameViewController: UIViewController {
             }
         }
         self.scene = scene
-        skView.presentScene(scene)
-        addSwipeGestures(to: skView)
+        scnView.scene = scene
+        scnView.delegate = scene
+        addSwipeGestures(to: scnView)
     }
 
-    private func addSwipeGestures(to skView: SKView) {
+    private func addSwipeGestures(to scnView: SCNView) {
         let directions: [UISwipeGestureRecognizer.Direction] = [.up, .down, .left, .right]
         for direction in directions {
             let recognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe(_:)))
             recognizer.direction = direction
-            skView.addGestureRecognizer(recognizer)
+            scnView.addGestureRecognizer(recognizer)
         }
     }
 
     @objc private func handleSwipe(_ recognizer: UISwipeGestureRecognizer) {
-        guard let scene = scene, !scene.isPaused else { return }
+        guard let scene = scene, !scene.gamePaused else { return }
         switch recognizer.direction {
         case .left:
             scene.moveLeft()
@@ -72,11 +76,12 @@ final class GameViewController: UIViewController {
     }
 
     func setPaused(_ paused: Bool) {
-        scene?.isPaused = paused
+        scene?.gamePaused = paused
     }
 
     deinit {
-        skView?.presentScene(nil)
+        scnView?.delegate = nil
+        scnView?.scene = nil
     }
 }
 
@@ -99,7 +104,7 @@ private struct GameViewRepresentable: UIViewControllerRepresentable {
     func updateUIViewController(_ uiViewController: GameViewController, context: Context) {}
 }
 
-/// The gameplay screen: SpriteKit view + HUD overlay + pause handling.
+/// The gameplay screen: SceneKit view + HUD overlay + pause handling.
 struct GameView: View {
     @EnvironmentObject private var manager: CharacterManager
     var onGameOver: (Int, Int) -> Void
