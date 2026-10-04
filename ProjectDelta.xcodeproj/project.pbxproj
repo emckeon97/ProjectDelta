@@ -64,6 +64,12 @@
 		42F20C3B052993B99BBD1807 /* Sprites/bosko.png in Resources */ = {isa = PBXBuildFile; fileRef = 34F17AF8533D61ECAEEA8AF8 /* bosko.png */; };
 		ABB65074F2CA410798AF0E13 /* Sprites/pete.png in Resources */ = {isa = PBXBuildFile; fileRef = D08CC3DEBB0B3DD08C47ACB8 /* pete.png */; };
 		0B30C34D61373702291364CE /* Sprites/pete.png in Resources */ = {isa = PBXBuildFile; fileRef = D08CC3DEBB0B3DD08C47ACB8 /* pete.png */; };
+		AC9AE7E5D713C40D5381A7FA /* Sprites/willie.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B444EB21BA36FDB60AF5B1B /* willie.png */; };
+		A220F86AB64F096513FD53F0 /* Sprites/willie.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B444EB21BA36FDB60AF5B1B /* willie.png */; };
+		E1D2AE61B4DDA74C1CFB1D30 /* Sprites/betty.png in Resources */ = {isa = PBXBuildFile; fileRef = DE32FD36182740BA3D39CD40 /* betty.png */; };
+		3CD7AA43C792647BF25BDFE4 /* Sprites/betty.png in Resources */ = {isa = PBXBuildFile; fileRef = DE32FD36182740BA3D39CD40 /* betty.png */; };
+		C23B1A0E5E748BA9993A16ED /* Sprites/minnie.png in Resources */ = {isa = PBXBuildFile; fileRef = 8ABAC7B1BCC10120D81DA2CB /* minnie.png */; };
+		12522C1A64E5D4B840EBE3D2 /* Sprites/minnie.png in Resources */ = {isa = PBXBuildFile; fileRef = 8ABAC7B1BCC10120D81DA2CB /* minnie.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -98,6 +104,9 @@
 		26F6388286CA1019E6EFEB86 /* olive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = olive.png; sourceTree = "<group>"; };
 		34F17AF8533D61ECAEEA8AF8 /* bosko.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bosko.png; sourceTree = "<group>"; };
 		D08CC3DEBB0B3DD08C47ACB8 /* pete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pete.png; sourceTree = "<group>"; };
+		0B444EB21BA36FDB60AF5B1B /* willie.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = willie.png; sourceTree = "<group>"; };
+		DE32FD36182740BA3D39CD40 /* betty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = betty.png; sourceTree = "<group>"; };
+		8ABAC7B1BCC10120D81DA2CB /* minnie.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = minnie.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +134,9 @@
 				26F6388286CA1019E6EFEB86 /* olive.png */,
 				34F17AF8533D61ECAEEA8AF8 /* bosko.png */,
 				D08CC3DEBB0B3DD08C47ACB8 /* pete.png */,
+				0B444EB21BA36FDB60AF5B1B /* willie.png */,
+				DE32FD36182740BA3D39CD40 /* betty.png */,
+				8ABAC7B1BCC10120D81DA2CB /* minnie.png */,
 			);
 			path = sprites;
 			sourceTree = "<group>";
@@ -141,8 +153,8 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		6BADB393C5EE8969FC64E30B /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (18293A4B5C6D7E8F09101112 /* delta_ragtime.mp3 in Resources */, 001E5E6B2B38061BA37CE7EA /* Sprites/felix.png in Resources */, B0A3BA3639DA73D812AA3E10 /* Sprites/popeye.png in Resources */, 70691028AFE91CB3B260D87B /* Sprites/oswald.png in Resources */, 1AC7ABE1C2AD481EBCC41C7B /* Sprites/koko.png in Resources */, 808C7803A168A844F392C310 /* Sprites/bimbo.png in Resources */, 3F33F3035379F5F536FD9A43 /* Sprites/pooh.png in Resources */, AF4204717B5DCAE2B0B52F66 /* Sprites/olive.png in Resources */, 724B2D20BBBE63C8B3916EF1 /* Sprites/bosko.png in Resources */, ABB65074F2CA410798AF0E13 /* Sprites/pete.png in Resources */); runOnlyForDeploymentPostprocessing = 0; };
-		C40BAC590B4885036E53B253 /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (293A4B5C6D7E8F0910111223 /* delta_ragtime.mp3 in Resources */, F0BAF314D29D8503B5FFC5FE /* Sprites/felix.png in Resources */, F72EDB6E0F49C2C1C0B890DC /* Sprites/popeye.png in Resources */, 6EEC42CB718B819C17617482 /* Sprites/oswald.png in Resources */, DEFA1100226F39AAEAA03F01 /* Sprites/koko.png in Resources */, 888602B3130688CD60385941 /* Sprites/bimbo.png in Resources */, 471566E1313EDD5374E6B718 /* Sprites/pooh.png in Resources */, 54D1A171FE1F8AD6DF988E88 /* Sprites/olive.png in Resources */, 42F20C3B052993B99BBD1807 /* Sprites/bosko.png in Resources */, 0B30C34D61373702291364CE /* Sprites/pete.png in Resources */); runOnlyForDeploymentPostprocessing = 0; };
+		6BADB393C5EE8969FC64E30B /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (18293A4B5C6D7E8F09101112 /* delta_ragtime.mp3 in Resources */, 001E5E6B2B38061BA37CE7EA /* Sprites/felix.png in Resources */, B0A3BA3639DA73D812AA3E10 /* Sprites/popeye.png in Resources */, 70691028AFE91CB3B260D87B /* Sprites/oswald.png in Resources */, 1AC7ABE1C2AD481EBCC41C7B /* Sprites/koko.png in Resources */, 808C7803A168A844F392C310 /* Sprites/bimbo.png in Resources */, 3F33F3035379F5F536FD9A43 /* Sprites/pooh.png in Resources */, AF4204717B5DCAE2B0B52F66 /* Sprites/olive.png in Resources */, 724B2D20BBBE63C8B3916EF1 /* Sprites/bosko.png in Resources */, ABB65074F2CA410798AF0E13 /* Sprites/pete.png in Resources */, AC9AE7E5D713C40D5381A7FA /* Sprites/willie.png in Resources */, E1D2AE61B4DDA74C1CFB1D30 /* Sprites/betty.png in Resources */, C23B1A0E5E748BA9993A16ED /* Sprites/minnie.png in Resources */); runOnlyForDeploymentPostprocessing = 0; };
+		C40BAC590B4885036E53B253 /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (293A4B5C6D7E8F0910111223 /* delta_ragtime.mp3 in Resources */, F0BAF314D29D8503B5FFC5FE /* Sprites/felix.png in Resources */, F72EDB6E0F49C2C1C0B890DC /* Sprites/popeye.png in Resources */, 6EEC42CB718B819C17617482 /* Sprites/oswald.png in Resources */, DEFA1100226F39AAEAA03F01 /* Sprites/koko.png in Resources */, 888602B3130688CD60385941 /* Sprites/bimbo.png in Resources */, 471566E1313EDD5374E6B718 /* Sprites/pooh.png in Resources */, 54D1A171FE1F8AD6DF988E88 /* Sprites/olive.png in Resources */, 42F20C3B052993B99BBD1807 /* Sprites/bosko.png in Resources */, 0B30C34D61373702291364CE /* Sprites/pete.png in Resources */, A220F86AB64F096513FD53F0 /* Sprites/willie.png in Resources */, 3CD7AA43C792647BF25BDFE4 /* Sprites/betty.png in Resources */, 12522C1A64E5D4B840EBE3D2 /* Sprites/minnie.png in Resources */); runOnlyForDeploymentPostprocessing = 0; };
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
