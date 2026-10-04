@@ -126,7 +126,7 @@
 				34F17AF8533D61ECAEEA8AF8 /* bosko.png */,
 				D08CC3DEBB0B3DD08C47ACB8 /* pete.png */,
 			);
-			path = Sprites;
+			path = sprites;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
