@@ -1,8 +1,8 @@
-import SpriteKit
+import SceneKit
 
-/// The runner avatar. Wraps the code-drawn character art and owns
+/// The runner avatar. Wraps the code-drawn 3D character art and owns
 /// lane / jump / roll animation state. Node origin is at the feet.
-final class Player: SKNode {
+final class Player: SCNNode {
 
     enum State {
         case running
@@ -12,44 +12,26 @@ final class Player: SKNode {
 
     private(set) var state: State = .running
     private(set) var laneIndex: Int = 1
-    private(set) var feetOffset: CGFloat = 0   // current jump height above ground
+    private(set) var playerY: Float = 0    // current jump height above ground
+    var isRolling: Bool { state == .rolling }
 
-    var targetX: CGFloat = 0
-
-    private let body: SKNode
+    private let body: SCNNode
+    private var targetX: Float = 0
     private var jumpT: Double = 1.0    // 0...1 jump progress; 1 = grounded
     private var rollT: Double = 1.0    // 0...1 roll progress; 1 = standing
     private var runPhase: Double = 0
 
     private let jumpDuration = 0.55
     private let rollDuration = 0.6
-    private let jumpPeak: CGFloat = 120
-    private let laneSpeed: CGFloat = 1100
+    private let laneSpeed: Float = 12
 
     init(characterID: String) {
         body = CharacterRenderer.node(for: characterID)
         super.init()
-        addChild(body)
+        addChildNode(body)
     }
 
     required init?(coder: NSCoder) { nil }
-
-    /// Scene-space collision rectangle (accounts for jump height and roll squash).
-    var collisionRect: CGRect {
-        switch state {
-        case .running:
-            return CGRect(x: position.x - 30, y: position.y, width: 60, height: 112)
-        case .jumping:
-            return CGRect(x: position.x - 30, y: position.y + feetOffset, width: 60, height: 112)
-        case .rolling:
-            return CGRect(x: position.x - 32, y: position.y, width: 64, height: 48)
-        }
-    }
-
-    /// Center of the character, used for pickup attraction / collection.
-    var centerPoint: CGPoint {
-        CGPoint(x: position.x, y: position.y + 50 + feetOffset)
-    }
 
     // MARK: - Controls
 
@@ -74,18 +56,18 @@ final class Player: SKNode {
         if state == .jumping {
             // slam down out of the jump
             jumpT = 1.0
-            feetOffset = 0
+            playerY = 0
             body.position.y = 0
         }
         guard state != .rolling else { return }
         state = .rolling
         rollT = 0
-        body.yScale = 0.5
+        body.scale.y = 0.55
     }
 
     private func endRoll() {
         rollT = 1.0
-        body.yScale = 1.0
+        body.scale.y = 1.0
     }
 
     // MARK: - Update
@@ -93,23 +75,23 @@ final class Player: SKNode {
     func update(_ dt: TimeInterval) {
         // lane glide
         let dx = targetX - position.x
-        let step = laneSpeed * CGFloat(dt)
+        let step = laneSpeed * Float(dt)
         if abs(dx) <= step {
             position.x = targetX
         } else {
             position.x += (dx > 0 ? step : -step)
         }
 
-        // jump arc: h = 4 * peak * t * (1 - t)
+        // jump arc: y = 3.2 * sin(pi * t)
         if jumpT < 1.0 {
             jumpT = min(1.0, jumpT + dt / jumpDuration)
             if jumpT >= 1.0 {
-                feetOffset = 0
+                playerY = 0
                 state = .running
             } else {
-                feetOffset = jumpPeak * 4 * CGFloat(jumpT) * CGFloat(1.0 - jumpT)
+                playerY = 3.2 * Float(sin(.pi * jumpT))
             }
-            body.position.y = feetOffset
+            body.position.y = playerY
         }
 
         // roll timer
@@ -124,7 +106,7 @@ final class Player: SKNode {
         // subtle running bob
         if state == .running {
             runPhase += dt * 14
-            body.position.y = sin(runPhase) * 3
+            body.position.y = Float(sin(runPhase)) * 0.05
         }
     }
 }
