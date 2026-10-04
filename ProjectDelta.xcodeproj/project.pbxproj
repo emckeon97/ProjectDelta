@@ -41,6 +41,7 @@
 		8EA558CF624C32761C29A817 /* UI/HUDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94CCB41EDF70C60817F6E2CC /* UI/HUDView.swift */; };
 		1C7F3AF8DBAC32BC6C8C3A69 /* UI/MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB31B3C3463F8CA5F47CA7C /* UI/MainMenuView.swift */; };
 		335751586B62A69EB08C468A /* UI/MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB31B3C3463F8CA5F47CA7C /* UI/MainMenuView.swift */; };
+		C3D4E5F60718293A4B5C6D7E /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = B2C3D4E5F60718293A4B5C6D /* GoogleMobileAds */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -67,7 +68,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		AB34BD2E211516B6701D8069 /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+		AB34BD2E211516B6701D8069 /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (C3D4E5F60718293A4B5C6D7E /* GoogleMobileAds in Frameworks */); runOnlyForDeploymentPostprocessing = 0; };
 		88190BE4EC50FC8A257D347C /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
 /* End PBXFrameworksBuildPhase section */
 
@@ -87,7 +88,7 @@
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		BCF1BD03C9B04DF789150399 /* Project */ = {isa = PBXProject; attributes = {BuildIndependentTargetsInParallel = 1; LastSwiftUpdateCheck = 1600; LastUpgradeCheck = 1600; }; buildConfigurationList = 3D59A5380EBD5A1E1BB4A452 /* Build configuration list for PBXProject "ProjectDelta" */; compatibilityVersion = "Xcode 16.0"; developmentRegion = en; hasScannedForEncodings = 0; knownRegions = (en); mainGroup = 3E55646611CD630C6193ABD5; productRefGroup = 8C1969BC5989E871C77EB3CC /* Products */; projectDirPath = ""; projectRoot = ""; targets = (DD0DAAF11C32FCC1D408B0F0 /* ProjectDelta */, 712B05222C0433AE7619BCE8 /* ProjectDeltaMac */); };
+		BCF1BD03C9B04DF789150399 /* Project */ = {isa = PBXProject; attributes = {BuildIndependentTargetsInParallel = 1; LastSwiftUpdateCheck = 1600; LastUpgradeCheck = 1600; }; buildConfigurationList = 3D59A5380EBD5A1E1BB4A452 /* Build configuration list for PBXProject "ProjectDelta" */; compatibilityVersion = "Xcode 16.0"; developmentRegion = en; hasScannedForEncodings = 0; knownRegions = (en); packageReferences = (A1B2C3D4E5F60718293A4B5C /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */); mainGroup = 3E55646611CD630C6193ABD5; productRefGroup = 8C1969BC5989E871C77EB3CC /* Products */; projectDirPath = ""; projectRoot = ""; targets = (DD0DAAF11C32FCC1D408B0F0 /* ProjectDelta */, 712B05222C0433AE7619BCE8 /* ProjectDeltaMac */); };
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -114,6 +115,12 @@
 		7E4390B9FB0E6D3D8D65A814 /* Build configuration list for PBXNativeTarget "ProjectDelta" */ = {isa = XCConfigurationList; buildConfigurations = (F49FD6A8F2C9F6397E772438 /* Debug */, 3FB1F4D03CC6E32B69DBFFEA /* Release */); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
 		F0DCB6E866E2560A82B1AC47 /* Build configuration list for PBXNativeTarget "ProjectDeltaMac" */ = {isa = XCConfigurationList; buildConfigurations = (3B27C900FB531F441C166F41 /* Debug */, EDD20D7FC23FF9BFF062A799 /* Release */); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
 /* End XCConfigurationList section */
+/* Begin XCRemoteSwiftPackageReference section */
+		A1B2C3D4E5F60718293A4B5C /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {isa = XCRemoteSwiftPackageReference; repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads"; requirement = {kind = upToNextMajorVersion; minimumVersion = 13.0.0; }; };
+/* End XCRemoteSwiftPackageReference section */
+/* Begin XCSwiftPackageProductDependency section */
+		B2C3D4E5F60718293A4B5C6D /* GoogleMobileAds */ = {isa = XCSwiftPackageProductDependency; package = A1B2C3D4E5F60718293A4B5C /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */; productName = GoogleMobileAds; };
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = BCF1BD03C9B04DF789150399 /* Project */;
 }
