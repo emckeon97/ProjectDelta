@@ -1,6 +1,7 @@
 import SwiftUI
 
-/// Post-run screen: score, coins, revive (rewarded ad), restart, menu.
+/// Post-run screen as a classic end card: "THE END" in serif with a
+/// decorative double rule, then stats and ticket-styled buttons.
 /// Shows an interstitial ad on every 3rd game over (see showInterstitialIfDue).
 struct GameOverView: View {
     let score: Int
@@ -16,27 +17,35 @@ struct GameOverView: View {
     @State private var reviveUsed = false
 
     var body: some View {
-        VStack(spacing: 18) {
-            Spacer(minLength: 32)
+        VStack(spacing: 16) {
+            Spacer(minLength: 36)
 
-            Text("WIPED OUT!")
-                .font(.system(size: 46, weight: .black, design: .rounded))
-                .italic()
-                .foregroundColor(.red)
+            // The end card.
+            VStack(spacing: 10) {
+                doubleRule
+                Text("THE END")
+                    .font(.system(size: 54, weight: .black, design: .serif))
+                    .tracking(8)
+                    .foregroundColor(DeltaTheme.cream)
+                doubleRule
+            }
+            .padding(.horizontal, 40)
 
             if isNewBest {
                 Text("★ NEW BEST! ★")
-                    .font(.title2)
-                    .bold()
-                    .foregroundColor(.yellow)
+                    .font(.system(size: 18, weight: .bold, design: .serif))
+                    .tracking(2)
+                    .foregroundColor(DeltaTheme.ink)
                     .padding(.horizontal, 22)
                     .padding(.vertical, 8)
-                    .background(Color.yellow.opacity(0.14))
-                    .cornerRadius(12)
+                    .background(
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(DeltaTheme.gold)
+                    )
             }
 
-            statRow(label: "Distance", value: "\(score) m")
-            statRow(label: "Coins", value: "🪙 \(coins)")
+            statRow(label: "DISTANCE", value: "\(score) m")
+            statRow(label: "COINS", value: "🪙 \(coins)")
 
             #if !targetEnvironment(macCatalyst)
             if !reviveUsed {
@@ -47,7 +56,7 @@ struct GameOverView: View {
                         onRevive()
                     }
                 } label: {
-                    Label("Revive — watch ad", systemImage: "tv")
+                    Label("ENCORE — WATCH AD", systemImage: "tv")
                 }
                 .buttonStyle(DeltaButtonStyle())
                 .disabled(!ads.isRewardedReady)
@@ -55,16 +64,16 @@ struct GameOverView: View {
             }
             #endif
 
-            Button("Run Again", action: onRestart)
-                .buttonStyle(DeltaButtonStyle())
-
-            Button("Main Menu", action: onMenu)
+            Button("RUN AGAIN", action: onRestart)
                 .buttonStyle(DeltaSecondaryButtonStyle())
 
-            Spacer(minLength: 24)
+            Button("MAIN MENU", action: onMenu)
+                .buttonStyle(DeltaSecondaryButtonStyle())
+
+            Spacer(minLength: 20)
             AdBannerView()
         }
-        .background(Color.black.ignoresSafeArea())
+        .background(DeltaTheme.ink.ignoresSafeArea())
         .onAppear {
             #if !targetEnvironment(macCatalyst)
             AdManager.shared.loadRewarded()
@@ -73,15 +82,27 @@ struct GameOverView: View {
         }
     }
 
+    private var doubleRule: some View {
+        VStack(spacing: 3) {
+            Rectangle()
+                .fill(DeltaTheme.gold.opacity(0.8))
+                .frame(height: 2)
+            Rectangle()
+                .fill(DeltaTheme.gold.opacity(0.8))
+                .frame(height: 1)
+        }
+    }
+
     private func statRow(label: String, value: String) -> some View {
         HStack {
             Text(label)
-                .foregroundColor(.white.opacity(0.65))
+                .font(.system(size: 14, weight: .semibold, design: .serif))
+                .tracking(3)
+                .foregroundColor(DeltaTheme.cream.opacity(0.6))
             Spacer()
             Text(value)
-                .font(.title2)
-                .bold()
-                .foregroundColor(.white)
+                .font(.system(size: 26, weight: .black, design: .serif))
+                .foregroundColor(DeltaTheme.cream)
         }
         .padding(.horizontal, 52)
     }
