@@ -21,7 +21,7 @@ enum CharacterRenderer {
     private static func material(_ color: UIColor) -> SCNMaterial {
         let m = SCNMaterial()
         m.diffuse.contents = color
-        m.roughness = 0.7
+        m.roughness.contents = 0.7
         return m
     }
 
