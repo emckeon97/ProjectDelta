@@ -19,14 +19,14 @@ final class CharacterManager: ObservableObject {
     init() {
         let defaults = UserDefaults.standard
         self.coins = defaults.integer(forKey: Self.coinsKey)
-        let savedSelected = defaults.string(forKey: Self.selectedKey)
-        let savedUnlocked = defaults.stringArray(forKey: Self.unlockedKey) ?? []
-        self.unlockedIDs = Set(savedUnlocked)
+        // Build the unlock set in a local first — calling mutating methods on
+        // self's properties isn't allowed until every stored property is set.
+        var unlocked = Set(defaults.stringArray(forKey: Self.unlockedKey) ?? [])
+        unlocked.insert("willie") // Willie is always available.
+        self.unlockedIDs = unlocked
         self.highScore = defaults.integer(forKey: Self.highScoreKey)
 
-        // Willie is always available.
-        self.unlockedIDs.insert("willie")
-
+        let savedSelected = defaults.string(forKey: Self.selectedKey)
         if let savedSelected, GameCharacter.roster.contains(where: { $0.id == savedSelected }) {
             self.selectedID = savedSelected
         } else {
