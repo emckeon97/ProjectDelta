@@ -133,6 +133,16 @@ struct GameView: View {
             )
             .ignoresSafeArea()
 
+            // Old-film vignette over the 3D view (hit-testing off so swipes pass through)
+            RadialGradient(
+                gradient: Gradient(colors: [.clear, .black.opacity(0.35)]),
+                center: .center,
+                startRadius: 120,
+                endRadius: 480
+            )
+            .ignoresSafeArea()
+            .allowsHitTesting(false)
+
             HUDView(score: hudScore, coins: hudCoins, onPause: pauseGame)
                 .opacity(isPaused ? 0 : 1)
 
