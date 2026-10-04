@@ -54,7 +54,7 @@ final class GameScene: SCNScene, SCNSceneRendererDelegate {
     // MARK: - State
 
     private var phase: Phase = .ready
-    private var characterID = "willie"
+    private var characterID = "popeye"
 
     private var player: Player?
     private var cameos: [SCNNode] = []
