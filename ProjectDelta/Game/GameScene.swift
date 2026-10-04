@@ -28,6 +28,8 @@ final class GameScene: SCNScene, SCNSceneRendererDelegate {
 
     func configure(characterID: String) {
         self.characterID = characterID
+        reel = 1
+        reelDidChange = true // show the REEL 1 title card as the run starts
         buildPlayer()
         buildCameos()
     }
@@ -51,6 +53,46 @@ final class GameScene: SCNScene, SCNSceneRendererDelegate {
     private let magnetPull: Float = 14
     private let scrollSpan: Float = 164     // scroller wrap distance
 
+    static let reelLength: Float = 500      // meters per silent-film reel (level)
+
+    /**
+     * The 1932 premiere story, told in silent-film title cards.
+     * Our star is late for the biggest cartoon premiere of the year at the
+     * Grand Picture Palace — every 500 meters is another reel of the race
+     * down the old pier.
+     */
+    static func reelTitle(_ reel: Int) -> String {
+        switch reel {
+        case 1: return "DOWN AT THE LANDING"
+        case 2: return "THE BUSY HARBOR"
+        case 3: return "FOG ON THE RIVER"
+        case 4: return "THE OLD FOOTBRIDGES"
+        case 5: return "PREMIERE NIGHT"
+        default: return "THE SHOW GOES ON"
+        }
+    }
+
+    static func reelBlurb(_ reel: Int) -> String {
+        switch reel {
+        case 1:
+            return "The year is 1932. The Grand Picture Palace premieres its biggest " +
+                "cartoon tonight — and our star is running late! Sprint down the old pier!"
+        case 2:
+            return "Rowboats crowd the landing — the whole river is headed to the premiere. " +
+                "Leap 'em and keep moving!"
+        case 3:
+            return "Fog rolls in thick as theater curtains. The paddle-wheelers can't see you… " +
+                "and you can't see them!"
+        case 4:
+            return "Duck, star! The crew left every last footbridge down. The show must go on!"
+        case 5:
+            return "There it is — the marquee lights of the Grand Picture Palace! " +
+                "One last sprint down the pier and you're a star!"
+        default:
+            return "The crowd roars for an encore! How long can you keep running?"
+        }
+    }
+
     // MARK: - State
 
     private var phase: Phase = .ready
@@ -72,6 +114,12 @@ final class GameScene: SCNScene, SCNSceneRendererDelegate {
     private var scrollSpeed: Float = 10
     private var score: Double = 0
     private var coinCount = 0
+
+    /// Silent-film reel (level): 1 per reelLength meters, with a title card.
+    private(set) var reel: Int = 1
+    /// Set when the reel increments (or a run starts); the UI shows the
+    /// title card, then resets this to false.
+    var reelDidChange = false
 
     private var magnetTime: TimeInterval = 0
     private var multiplierTime: TimeInterval = 0
@@ -342,6 +390,13 @@ final class GameScene: SCNScene, SCNSceneRendererDelegate {
         let mult: Double = multiplierTime > 0 ? 2 : 1
         score += Double(scrollSpeed * Float(dt)) * mult
 
+        // silent-film reels: new title card every reelLength meters
+        let newReel = Int(score / Double(GameScene.reelLength)) + 1
+        if newReel != reel {
+            reel = newReel
+            reelDidChange = true
+        }
+
         if magnetTime > 0 { magnetTime -= dt }
         if multiplierTime > 0 { multiplierTime -= dt }
 
@@ -478,7 +533,9 @@ final class GameScene: SCNScene, SCNSceneRendererDelegate {
     /// trains, so there is always a survivable path.
     private func spawnObstacleRow() {
         var kinds: [ObstacleKind?] = [nil, nil, nil]
-        let blockedCount = Double.random(in: 0...1) < 0.45 ? 2 : 1
+        // Later reels crowd the pier a little more.
+        let twoChance = min(0.75, 0.45 + 0.05 * Double(reel - 1))
+        let blockedCount = Double.random(in: 0...1) < twoChance ? 2 : 1
         let lanes = [0, 1, 2].shuffled()
         for i in 0..<blockedCount {
             let r = Double.random(in: 0...1)
