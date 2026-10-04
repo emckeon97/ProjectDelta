@@ -1,25 +1,77 @@
 import SwiftUI
-import SpriteKit
+import SceneKit
 
-/// Live SpriteKit thumbnail of a character — used on the menu and select grid.
+/// Live 3D thumbnail of a character — SceneKit preview with a slow turntable.
+/// Used on the menu and the character-select grid.
 struct CharacterPreviewView: View {
     let characterID: String
-    private let scene: SKScene
-
-    init(characterID: String) {
-        self.characterID = characterID
-        let preview = SKScene(size: CGSize(width: 100, height: 130))
-        preview.backgroundColor = .clear
-        preview.scaleMode = .aspectFit
-        let node = CharacterRenderer.node(for: characterID)
-        // Renderer anchors the node at feet-center; sit it near the bottom.
-        node.position = CGPoint(x: 50, y: 6)
-        preview.addChild(node)
-        self.scene = preview
-    }
 
     var body: some View {
-        SpriteView(scene: scene, options: [.allowsTransparency])
+        CharacterPreviewRepresentable(characterID: characterID)
+    }
+}
+
+private struct CharacterPreviewRepresentable: UIViewRepresentable {
+    let characterID: String
+
+    func makeCoordinator() -> Coordinator { Coordinator() }
+
+    func makeUIView(context: Context) -> SCNView {
+        let view = SCNView()
+        view.backgroundColor = .clear
+        view.allowsCameraControl = false
+        view.isPlaying = true
+        view.antialiasingMode = .multisampling4X
+        view.scene = makeScene()
+        context.coordinator.lastID = characterID
+        return view
+    }
+
+    func updateUIView(_ uiView: SCNView, context: Context) {
+        guard context.coordinator.lastID != characterID else { return }
+        context.coordinator.lastID = characterID
+        uiView.scene = makeScene()
+    }
+
+    private func makeScene() -> SCNScene {
+        let scene = SCNScene()
+
+        let node = CharacterRenderer.node(for: characterID)
+        node.runAction(.repeatForever(
+            .rotateBy(x: 0, y: CGFloat.pi * 2, z: 0, duration: 6)
+        ))
+        scene.rootNode.addChildNode(node)
+
+        let target = SCNNode()
+        target.position = SCNVector3(0, 0.9, 0)
+        scene.rootNode.addChildNode(target)
+
+        let camera = SCNNode()
+        camera.camera = SCNCamera()
+        camera.position = SCNVector3(0, 1.0, 3.2)
+        camera.constraints = [SCNLookAtConstraint(target: target)]
+        scene.rootNode.addChildNode(camera)
+
+        let ambient = SCNNode()
+        let ambientLight = SCNLight()
+        ambientLight.type = .ambient
+        ambientLight.intensity = 800
+        ambient.light = ambientLight
+        scene.rootNode.addChildNode(ambient)
+
+        let key = SCNNode()
+        let keyLight = SCNLight()
+        keyLight.type = .directional
+        keyLight.intensity = 1400
+        key.light = keyLight
+        key.eulerAngles = SCNVector3(-0.6, 0.3, 0)
+        scene.rootNode.addChildNode(key)
+
+        return scene
+    }
+
+    final class Coordinator {
+        var lastID: String?
     }
 }
 
