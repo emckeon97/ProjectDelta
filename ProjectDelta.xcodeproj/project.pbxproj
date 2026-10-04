@@ -44,22 +44,22 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		2B575E5CEBAD007952DD8F53 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game/GameScene.swift; sourceTree = "<group>"; };
-		7658B9541D9A6A74AFF22761 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game/Player.swift; sourceTree = "<group>"; };
-		E056F2B805A91B93AF0FA105 /* Obstacle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game/Obstacle.swift; sourceTree = "<group>"; };
-		59FC210BB285A0C987E49392 /* Coin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game/Coin.swift; sourceTree = "<group>"; };
-		62A5DA5D88B604C6CB2F5846 /* PowerUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game/PowerUp.swift; sourceTree = "<group>"; };
-		EB8D762CC1BDF043D5231561 /* GameCharacter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Characters/GameCharacter.swift; sourceTree = "<group>"; };
-		B839E5F4E97F76617FEF6D10 /* CharacterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Characters/CharacterManager.swift; sourceTree = "<group>"; };
-		985F1A42A7EC64AC8918289F /* CharacterRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Characters/CharacterRenderer.swift; sourceTree = "<group>"; };
-		598E417DF5BB63D5001E7806 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/ContentView.swift; sourceTree = "<group>"; };
-		FDB31B3C3463F8CA5F47CA7C /* MainMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/MainMenuView.swift; sourceTree = "<group>"; };
-		5D302CBFA60B91F1577BEEDF /* CharacterSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/CharacterSelectView.swift; sourceTree = "<group>"; };
-		E47A8A2809D835EAD9FD55B3 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/GameView.swift; sourceTree = "<group>"; };
-		94CCB41EDF70C60817F6E2CC /* HUDView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/HUDView.swift; sourceTree = "<group>"; };
-		34B33BB2D18809B2522A4E36 /* GameOverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/GameOverView.swift; sourceTree = "<group>"; };
-		769B93395191BEEA0A84D0B3 /* AdBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/AdBannerView.swift; sourceTree = "<group>"; };
-		54CA74FC765B5CDDD555F205 /* AdManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ads/AdManager.swift; sourceTree = "<group>"; };
+		2B575E5CEBAD007952DD8F53 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		7658B9541D9A6A74AFF22761 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		E056F2B805A91B93AF0FA105 /* Obstacle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Obstacle.swift; sourceTree = "<group>"; };
+		59FC210BB285A0C987E49392 /* Coin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coin.swift; sourceTree = "<group>"; };
+		62A5DA5D88B604C6CB2F5846 /* PowerUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PowerUp.swift; sourceTree = "<group>"; };
+		EB8D762CC1BDF043D5231561 /* GameCharacter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCharacter.swift; sourceTree = "<group>"; };
+		B839E5F4E97F76617FEF6D10 /* CharacterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterManager.swift; sourceTree = "<group>"; };
+		985F1A42A7EC64AC8918289F /* CharacterRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterRenderer.swift; sourceTree = "<group>"; };
+		598E417DF5BB63D5001E7806 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		FDB31B3C3463F8CA5F47CA7C /* MainMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuView.swift; sourceTree = "<group>"; };
+		5D302CBFA60B91F1577BEEDF /* CharacterSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterSelectView.swift; sourceTree = "<group>"; };
+		E47A8A2809D835EAD9FD55B3 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
+		94CCB41EDF70C60817F6E2CC /* HUDView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDView.swift; sourceTree = "<group>"; };
+		34B33BB2D18809B2522A4E36 /* GameOverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverView.swift; sourceTree = "<group>"; };
+		769B93395191BEEA0A84D0B3 /* AdBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdBannerView.swift; sourceTree = "<group>"; };
+		54CA74FC765B5CDDD555F205 /* AdManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdManager.swift; sourceTree = "<group>"; };
 		227FBD3A3011B5B01DCC0E14 /* ProjectDeltaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectDeltaApp.swift; sourceTree = "<group>"; };
 		E11324A5BC4F0A7FA438F642 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AC596282980BB7579F5C6CC2 /* ProjectDelta.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProjectDelta.app; sourceTree = BUILT_PRODUCTS_DIR; };
