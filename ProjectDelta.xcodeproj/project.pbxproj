@@ -1,0 +1,119 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		131B054BA7F989DFB1E45147 /* Ads/AdManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54CA74FC765B5CDDD555F205 /* Ads/AdManager.swift */; };
+		95CB89E6A49AB85CCA33D61E /* Ads/AdManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54CA74FC765B5CDDD555F205 /* Ads/AdManager.swift */; };
+		D6487333EA5CCBDF98074747 /* Characters/CharacterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B839E5F4E97F76617FEF6D10 /* Characters/CharacterManager.swift */; };
+		A29855474CE622B789F21556 /* Characters/CharacterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B839E5F4E97F76617FEF6D10 /* Characters/CharacterManager.swift */; };
+		219222F6011DDC9554A17B4B /* Characters/CharacterRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985F1A42A7EC64AC8918289F /* Characters/CharacterRenderer.swift */; };
+		D394ED1590F909178F8C5D8C /* Characters/CharacterRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985F1A42A7EC64AC8918289F /* Characters/CharacterRenderer.swift */; };
+		65F3C38F047BBE6198B62EB3 /* Characters/GameCharacter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8D762CC1BDF043D5231561 /* Characters/GameCharacter.swift */; };
+		8054EE560257910C1F92C5DC /* Characters/GameCharacter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8D762CC1BDF043D5231561 /* Characters/GameCharacter.swift */; };
+		4634DA9070946F1FEF5E0314 /* Game/Coin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FC210BB285A0C987E49392 /* Game/Coin.swift */; };
+		A144E05256E5E0D90ADB4266 /* Game/Coin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FC210BB285A0C987E49392 /* Game/Coin.swift */; };
+		BA1F3EE334535AA3EF94107D /* Game/GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B575E5CEBAD007952DD8F53 /* Game/GameScene.swift */; };
+		5B57C9F2FF233B1FD7B8C9F8 /* Game/GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B575E5CEBAD007952DD8F53 /* Game/GameScene.swift */; };
+		CD8E79C6BC46CAB306680877 /* Game/Obstacle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E056F2B805A91B93AF0FA105 /* Game/Obstacle.swift */; };
+		D1669CC0B1EBC82CF9E8CCDC /* Game/Obstacle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E056F2B805A91B93AF0FA105 /* Game/Obstacle.swift */; };
+		7EE264FD33E1AD1B007D7858 /* Game/Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7658B9541D9A6A74AFF22761 /* Game/Player.swift */; };
+		3B4594AFD4567C3D8FDEA15D /* Game/Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7658B9541D9A6A74AFF22761 /* Game/Player.swift */; };
+		6085020BD63C51B2348B0A28 /* Game/PowerUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A5DA5D88B604C6CB2F5846 /* Game/PowerUp.swift */; };
+		DE688513F1495E09991B3AFA /* Game/PowerUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A5DA5D88B604C6CB2F5846 /* Game/PowerUp.swift */; };
+		CC066137332617573F182B91 /* ProjectDeltaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227FBD3A3011B5B01DCC0E14 /* ProjectDeltaApp.swift */; };
+		F73F510CA6BB945C25186DD2 /* ProjectDeltaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227FBD3A3011B5B01DCC0E14 /* ProjectDeltaApp.swift */; };
+		2F8BDD9898AB25760358B626 /* UI/AdBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769B93395191BEEA0A84D0B3 /* UI/AdBannerView.swift */; };
+		EDAC23A3F703B68703C36B6D /* UI/AdBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769B93395191BEEA0A84D0B3 /* UI/AdBannerView.swift */; };
+		4005DE6D00998ECF40ED5A21 /* UI/CharacterSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D302CBFA60B91F1577BEEDF /* UI/CharacterSelectView.swift */; };
+		A55CBA793DC2F037A16A8E08 /* UI/CharacterSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D302CBFA60B91F1577BEEDF /* UI/CharacterSelectView.swift */; };
+		0E1EF63E794FA34B4CBA273D /* UI/ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 598E417DF5BB63D5001E7806 /* UI/ContentView.swift */; };
+		B3734F5A4D3F37FB7B2EFEBD /* UI/ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 598E417DF5BB63D5001E7806 /* UI/ContentView.swift */; };
+		5321AFA4F4548F7B67B8AB6D /* UI/GameOverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B33BB2D18809B2522A4E36 /* UI/GameOverView.swift */; };
+		FCA97781292F486DC86B0FBB /* UI/GameOverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B33BB2D18809B2522A4E36 /* UI/GameOverView.swift */; };
+		76ABD17682E112DEE010046E /* UI/GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E47A8A2809D835EAD9FD55B3 /* UI/GameView.swift */; };
+		87892F719D4DA039BF018CDA /* UI/GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E47A8A2809D835EAD9FD55B3 /* UI/GameView.swift */; };
+		196AC50C6D8667745F1FE20B /* UI/HUDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94CCB41EDF70C60817F6E2CC /* UI/HUDView.swift */; };
+		8EA558CF624C32761C29A817 /* UI/HUDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94CCB41EDF70C60817F6E2CC /* UI/HUDView.swift */; };
+		1C7F3AF8DBAC32BC6C8C3A69 /* UI/MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB31B3C3463F8CA5F47CA7C /* UI/MainMenuView.swift */; };
+		335751586B62A69EB08C468A /* UI/MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB31B3C3463F8CA5F47CA7C /* UI/MainMenuView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		2B575E5CEBAD007952DD8F53 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game/GameScene.swift; sourceTree = "<group>"; };
+		7658B9541D9A6A74AFF22761 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game/Player.swift; sourceTree = "<group>"; };
+		E056F2B805A91B93AF0FA105 /* Obstacle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game/Obstacle.swift; sourceTree = "<group>"; };
+		59FC210BB285A0C987E49392 /* Coin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game/Coin.swift; sourceTree = "<group>"; };
+		62A5DA5D88B604C6CB2F5846 /* PowerUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game/PowerUp.swift; sourceTree = "<group>"; };
+		EB8D762CC1BDF043D5231561 /* GameCharacter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Characters/GameCharacter.swift; sourceTree = "<group>"; };
+		B839E5F4E97F76617FEF6D10 /* CharacterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Characters/CharacterManager.swift; sourceTree = "<group>"; };
+		985F1A42A7EC64AC8918289F /* CharacterRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Characters/CharacterRenderer.swift; sourceTree = "<group>"; };
+		598E417DF5BB63D5001E7806 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/ContentView.swift; sourceTree = "<group>"; };
+		FDB31B3C3463F8CA5F47CA7C /* MainMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/MainMenuView.swift; sourceTree = "<group>"; };
+		5D302CBFA60B91F1577BEEDF /* CharacterSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/CharacterSelectView.swift; sourceTree = "<group>"; };
+		E47A8A2809D835EAD9FD55B3 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/GameView.swift; sourceTree = "<group>"; };
+		94CCB41EDF70C60817F6E2CC /* HUDView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/HUDView.swift; sourceTree = "<group>"; };
+		34B33BB2D18809B2522A4E36 /* GameOverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/GameOverView.swift; sourceTree = "<group>"; };
+		769B93395191BEEA0A84D0B3 /* AdBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/AdBannerView.swift; sourceTree = "<group>"; };
+		54CA74FC765B5CDDD555F205 /* AdManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ads/AdManager.swift; sourceTree = "<group>"; };
+		227FBD3A3011B5B01DCC0E14 /* ProjectDeltaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectDeltaApp.swift; sourceTree = "<group>"; };
+		E11324A5BC4F0A7FA438F642 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AC596282980BB7579F5C6CC2 /* ProjectDelta.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProjectDelta.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DC06330F0178E95616FADB79 /* ProjectDeltaMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProjectDeltaMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		AB34BD2E211516B6701D8069 /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+		88190BE4EC50FC8A257D347C /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3E55646611CD630C6193ABD5 = {isa = PBXGroup; children = (FED4456A4983D47E706FE579, 8C1969BC5989E871C77EB3CC); sourceTree = "<group>"; };
+		8C1969BC5989E871C77EB3CC /* Products */ = {isa = PBXGroup; children = (AC596282980BB7579F5C6CC2 /* ProjectDelta.app */, DC06330F0178E95616FADB79 /* ProjectDeltaMac.app */); name = Products; sourceTree = "<group>"; };
+		FED4456A4983D47E706FE579 /* ProjectDelta */ = {isa = PBXGroup; children = (7BD2845B5F7FB70655F1FC8F /* Game */, 16E03391F96C615FF9726EB4 /* Characters */, AD44D381F2AF89263C0F3EA6 /* UI */, DFAFD64A31597CEE801DC751 /* Ads */, 227FBD3A3011B5B01DCC0E14 /* ProjectDeltaApp.swift */, E11324A5BC4F0A7FA438F642 /* Info.plist */); path = ProjectDelta; sourceTree = "<group>"; };
+		7BD2845B5F7FB70655F1FC8F /* Game */ = {isa = PBXGroup; children = (2B575E5CEBAD007952DD8F53 /* GameScene.swift */, 7658B9541D9A6A74AFF22761 /* Player.swift */, E056F2B805A91B93AF0FA105 /* Obstacle.swift */, 59FC210BB285A0C987E49392 /* Coin.swift */, 62A5DA5D88B604C6CB2F5846 /* PowerUp.swift */); path = Game; sourceTree = "<group>"; };
+		16E03391F96C615FF9726EB4 /* Characters */ = {isa = PBXGroup; children = (EB8D762CC1BDF043D5231561 /* GameCharacter.swift */, B839E5F4E97F76617FEF6D10 /* CharacterManager.swift */, 985F1A42A7EC64AC8918289F /* CharacterRenderer.swift */); path = Characters; sourceTree = "<group>"; };
+		AD44D381F2AF89263C0F3EA6 /* UI */ = {isa = PBXGroup; children = (598E417DF5BB63D5001E7806 /* ContentView.swift */, FDB31B3C3463F8CA5F47CA7C /* MainMenuView.swift */, 5D302CBFA60B91F1577BEEDF /* CharacterSelectView.swift */, E47A8A2809D835EAD9FD55B3 /* GameView.swift */, 94CCB41EDF70C60817F6E2CC /* HUDView.swift */, 34B33BB2D18809B2522A4E36 /* GameOverView.swift */, 769B93395191BEEA0A84D0B3 /* AdBannerView.swift */); path = UI; sourceTree = "<group>"; };
+		DFAFD64A31597CEE801DC751 /* Ads */ = {isa = PBXGroup; children = (54CA74FC765B5CDDD555F205 /* AdManager.swift */); path = Ads; sourceTree = "<group>"; };
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		DD0DAAF11C32FCC1D408B0F0 /* ProjectDelta */ = {isa = PBXNativeTarget; buildConfigurationList = 7E4390B9FB0E6D3D8D65A814 /* Build configuration list for PBXNativeTarget "ProjectDelta" */; buildPhases = (AB34BD2E211516B6701D8069 /* Sources */, 6BADB393C5EE8969FC64E30B /* Sources */, 55F2EE981A894A004DF3962C /* Sources */); buildRules = (); dependencies = (); name = ProjectDelta; productName = ProjectDelta; productReference = AC596282980BB7579F5C6CC2 /* ProjectDelta.app */; productType = "com.apple.product-type.application"; };
+		712B05222C0433AE7619BCE8 /* ProjectDeltaMac */ = {isa = PBXNativeTarget; buildConfigurationList = F0DCB6E866E2560A82B1AC47 /* Build configuration list for PBXNativeTarget "ProjectDeltaMac" */; buildPhases = (88190BE4EC50FC8A257D347C /* Sources */, C40BAC590B4885036E53B253 /* Sources */, 061457D4295BD5EA28ACF175 /* Sources */); buildRules = (); dependencies = (); name = ProjectDeltaMac; productName = ProjectDeltaMac; productReference = DC06330F0178E95616FADB79 /* ProjectDeltaMac.app */; productType = "com.apple.product-type.application"; };
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BCF1BD03C9B04DF789150399 /* Project */ = {isa = PBXProject; attributes = {BuildIndependentTargetsInParallel = 1; LastSwiftUpdateCheck = 1600; LastUpgradeCheck = 1600; }; buildConfigurationList = 3D59A5380EBD5A1E1BB4A452 /* Build configuration list for PBXProject "ProjectDelta" */; compatibilityVersion = "Xcode 16.0"; developmentRegion = en; hasScannedForEncodings = 0; knownRegions = (en); mainGroup = 3E55646611CD630C6193ABD5; productRefGroup = 8C1969BC5989E871C77EB3CC /* Products */; projectDirPath = ""; projectRoot = ""; targets = (DD0DAAF11C32FCC1D408B0F0 /* ProjectDelta */, 712B05222C0433AE7619BCE8 /* ProjectDeltaMac */); };
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		6BADB393C5EE8969FC64E30B /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+		C40BAC590B4885036E53B253 /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		55F2EE981A894A004DF3962C /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (131B054BA7F989DFB1E45147 /* Ads/AdManager.swift in Sources */, D6487333EA5CCBDF98074747 /* Characters/CharacterManager.swift in Sources */, 219222F6011DDC9554A17B4B /* Characters/CharacterRenderer.swift in Sources */, 65F3C38F047BBE6198B62EB3 /* Characters/GameCharacter.swift in Sources */, 4634DA9070946F1FEF5E0314 /* Game/Coin.swift in Sources */, BA1F3EE334535AA3EF94107D /* Game/GameScene.swift in Sources */, CD8E79C6BC46CAB306680877 /* Game/Obstacle.swift in Sources */, 7EE264FD33E1AD1B007D7858 /* Game/Player.swift in Sources */, 6085020BD63C51B2348B0A28 /* Game/PowerUp.swift in Sources */, CC066137332617573F182B91 /* ProjectDeltaApp.swift in Sources */, 2F8BDD9898AB25760358B626 /* UI/AdBannerView.swift in Sources */, 4005DE6D00998ECF40ED5A21 /* UI/CharacterSelectView.swift in Sources */, 0E1EF63E794FA34B4CBA273D /* UI/ContentView.swift in Sources */, 5321AFA4F4548F7B67B8AB6D /* UI/GameOverView.swift in Sources */, 76ABD17682E112DEE010046E /* UI/GameView.swift in Sources */, 196AC50C6D8667745F1FE20B /* UI/HUDView.swift in Sources */, 1C7F3AF8DBAC32BC6C8C3A69 /* UI/MainMenuView.swift in Sources */); runOnlyForDeploymentPostprocessing = 0; };
+		061457D4295BD5EA28ACF175 /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (95CB89E6A49AB85CCA33D61E /* Ads/AdManager.swift in Sources */, A29855474CE622B789F21556 /* Characters/CharacterManager.swift in Sources */, D394ED1590F909178F8C5D8C /* Characters/CharacterRenderer.swift in Sources */, 8054EE560257910C1F92C5DC /* Characters/GameCharacter.swift in Sources */, A144E05256E5E0D90ADB4266 /* Game/Coin.swift in Sources */, 5B57C9F2FF233B1FD7B8C9F8 /* Game/GameScene.swift in Sources */, D1669CC0B1EBC82CF9E8CCDC /* Game/Obstacle.swift in Sources */, 3B4594AFD4567C3D8FDEA15D /* Game/Player.swift in Sources */, DE688513F1495E09991B3AFA /* Game/PowerUp.swift in Sources */, F73F510CA6BB945C25186DD2 /* ProjectDeltaApp.swift in Sources */, EDAC23A3F703B68703C36B6D /* UI/AdBannerView.swift in Sources */, A55CBA793DC2F037A16A8E08 /* UI/CharacterSelectView.swift in Sources */, B3734F5A4D3F37FB7B2EFEBD /* UI/ContentView.swift in Sources */, FCA97781292F486DC86B0FBB /* UI/GameOverView.swift in Sources */, 87892F719D4DA039BF018CDA /* UI/GameView.swift in Sources */, 8EA558CF624C32761C29A817 /* UI/HUDView.swift in Sources */, 335751586B62A69EB08C468A /* UI/MainMenuView.swift in Sources */); runOnlyForDeploymentPostprocessing = 0; };
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		0AE3D3D817795CE7FA77C1BD /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {ALWAYS_SEARCH_USER_PATHS = NO; CLANG_ANALYZER_NONNULL = YES; CLANG_CXX_LANGUAGE_STANDARD = "gnu++20"; COPY_PHASE_STRIP = NO; DEBUG_INFORMATION_FORMAT = dwarf; ENABLE_STRICT_OBJC_MSGSEND = YES; ENABLE_TESTABILITY = YES; GCC_C_LANGUAGE_STANDARD = gnu17; MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE; MTL_FAST_MATH = YES; ONLY_ACTIVE_ARCH = YES; SDKROOT = iphoneos; SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG; SWIFT_OPTIMIZATION_LEVEL = "-Onone"; }; name = Debug; };
+		BEB962F8AAB269278A4A8885 /* Release */ = {isa = XCBuildConfiguration; buildSettings = {ALWAYS_SEARCH_USER_PATHS = NO; CLANG_ANALYZER_NONNULL = YES; CLANG_CXX_LANGUAGE_STANDARD = "gnu++20"; COPY_PHASE_STRIP = NO; DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym"; ENABLE_NS_ASSERTIONS = NO; ENABLE_STRICT_OBJC_MSGSEND = YES; GCC_C_LANGUAGE_STANDARD = gnu17; MTL_ENABLE_DEBUG_INFO = NO; MTL_FAST_MATH = YES; SDKROOT = iphoneos; SWIFT_COMPILATION_MODE = wholemodule; }; name = Release; };
+		F49FD6A8F2C9F6397E772438 = {isa = XCBuildConfiguration; buildSettings = {ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES; CODE_SIGN_STYLE = Automatic; SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG; INFOPLIST_FILE = ProjectDelta/Info.plist; IPHONEOS_DEPLOYMENT_TARGET = 16.0; LD_RUNPATH_SEARCH_PATHS = ("@executable_path/Frameworks"); PRODUCT_BUNDLE_IDENTIFIER = com.emckeon97.ProjectDelta; PRODUCT_NAME = ProjectDelta; SDKROOT = iphoneos; SWIFT_EMIT_LOC_STRINGS = YES; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = "1,2"; }; name = Debug; };
+		3FB1F4D03CC6E32B69DBFFEA = {isa = XCBuildConfiguration; buildSettings = {ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES; CODE_SIGN_STYLE = Automatic; SWIFT_COMPILATION_MODE = wholemodule; INFOPLIST_FILE = ProjectDelta/Info.plist; IPHONEOS_DEPLOYMENT_TARGET = 16.0; LD_RUNPATH_SEARCH_PATHS = ("@executable_path/Frameworks"); PRODUCT_BUNDLE_IDENTIFIER = com.emckeon97.ProjectDelta; PRODUCT_NAME = ProjectDelta; SDKROOT = iphoneos; SWIFT_EMIT_LOC_STRINGS = YES; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = "1,2"; }; name = Release; };
+		3B27C900FB531F441C166F41 = {isa = XCBuildConfiguration; buildSettings = {ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES; CODE_SIGN_STYLE = Automatic; SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG; INFOPLIST_FILE = ProjectDelta/Info.plist; IPHONEOS_DEPLOYMENT_TARGET = 16.0; LD_RUNPATH_SEARCH_PATHS = ("@executable_path/Frameworks"); PRODUCT_BUNDLE_IDENTIFIER = com.emckeon97.ProjectDelta.mac; PRODUCT_NAME = ProjectDeltaMac; SUPPORTS_MACCATALYST = YES; SDKROOT = iphoneos; SWIFT_EMIT_LOC_STRINGS = YES; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = "1,2"; }; name = Debug; };
+		EDD20D7FC23FF9BFF062A799 = {isa = XCBuildConfiguration; buildSettings = {ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES; CODE_SIGN_STYLE = Automatic; SWIFT_COMPILATION_MODE = wholemodule; INFOPLIST_FILE = ProjectDelta/Info.plist; IPHONEOS_DEPLOYMENT_TARGET = 16.0; LD_RUNPATH_SEARCH_PATHS = ("@executable_path/Frameworks"); PRODUCT_BUNDLE_IDENTIFIER = com.emckeon97.ProjectDelta.mac; PRODUCT_NAME = ProjectDeltaMac; SUPPORTS_MACCATALYST = YES; SDKROOT = iphoneos; SWIFT_EMIT_LOC_STRINGS = YES; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = "1,2"; }; name = Release; };
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3D59A5380EBD5A1E1BB4A452 /* Build configuration list for PBXProject "ProjectDelta" */ = {isa = XCConfigurationList; buildConfigurations = (0AE3D3D817795CE7FA77C1BD /* Debug */, BEB962F8AAB269278A4A8885 /* Release */); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+		7E4390B9FB0E6D3D8D65A814 /* Build configuration list for PBXNativeTarget "ProjectDelta" */ = {isa = XCConfigurationList; buildConfigurations = (F49FD6A8F2C9F6397E772438 /* Debug */, 3FB1F4D03CC6E32B69DBFFEA /* Release */); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+		F0DCB6E866E2560A82B1AC47 /* Build configuration list for PBXNativeTarget "ProjectDeltaMac" */ = {isa = XCConfigurationList; buildConfigurations = (3B27C900FB531F441C166F41 /* Debug */, EDD20D7FC23FF9BFF062A799 /* Release */); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+/* End XCConfigurationList section */
+	};
+	rootObject = BCF1BD03C9B04DF789150399 /* Project */;
+}
