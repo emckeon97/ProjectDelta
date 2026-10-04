@@ -85,11 +85,9 @@ final class GameScene: SCNScene, SCNSceneRendererDelegate {
     private func buildWorld() {
         background.contents = UIColor(red: 0.05, green: 0.06, blue: 0.10, alpha: 1)
 
-        let fog = SCNFog()
-        fog.startDistance = 35
-        fog.endDistance = 95
-        fog.color = UIColor(red: 0.05, green: 0.06, blue: 0.10, alpha: 1)
-        self.fog = fog
+        fogStartDistance = 35
+        fogEndDistance = 95
+        fogColor = UIColor(red: 0.05, green: 0.06, blue: 0.10, alpha: 1)
 
         // Camera
         let cam = SCNNode()
@@ -98,9 +96,9 @@ final class GameScene: SCNScene, SCNSceneRendererDelegate {
         cam.position = SCNVector3(0, 5.4, 8.0)
         let lookTarget = SCNNode()
         lookTarget.position = SCNVector3(0, 1.2, -8)
-        addChildNode(lookTarget)
+        rootNode.addChildNode(lookTarget)
         cam.constraints = [SCNLookAtConstraint(target: lookTarget)]
-        addChildNode(cam)
+        rootNode.addChildNode(cam)
 
         // Lighting: ambient + one directional from above-front
         let ambient = SCNNode()
@@ -108,7 +106,7 @@ final class GameScene: SCNScene, SCNSceneRendererDelegate {
         ambient.light?.type = .ambient
         ambient.light?.intensity = 700
         ambient.light?.color = UIColor(white: 0.9, alpha: 1)
-        addChildNode(ambient)
+        rootNode.addChildNode(ambient)
 
         let sun = SCNNode()
         sun.light = SCNLight()
@@ -116,21 +114,21 @@ final class GameScene: SCNScene, SCNSceneRendererDelegate {
         sun.light?.intensity = 1100
         sun.position = SCNVector3(4, 10, 6)
         sun.constraints = [SCNLookAtConstraint(target: lookTarget)]
-        addChildNode(sun)
+        rootNode.addChildNode(sun)
 
         // Ground
         let ground = SCNNode(geometry: SCNPlane(width: 34, height: 180))
         ground.geometry?.materials = [mat(UIColor(red: 0.07, green: 0.08, blue: 0.12, alpha: 1))]
         ground.eulerAngles.x = -Float.pi / 2
         ground.position = SCNVector3(0, 0, -60)
-        addChildNode(ground)
+        rootNode.addChildNode(ground)
 
         // Lane strips
         for x in GameScene.laneX {
             let strip = SCNNode(geometry: SCNBox(width: 1.9, height: 0.04, length: 170, chamferRadius: 0))
             strip.geometry?.materials = [mat(UIColor(red: 0.10, green: 0.11, blue: 0.16, alpha: 1))]
             strip.position = SCNVector3(x, 0.02, -60)
-            addChildNode(strip)
+            rootNode.addChildNode(strip)
         }
 
         // Side rails (static)
@@ -138,7 +136,7 @@ final class GameScene: SCNScene, SCNSceneRendererDelegate {
             let rail = SCNNode(geometry: SCNBox(width: 0.25, height: 0.5, length: 170, chamferRadius: 0.03))
             rail.geometry?.materials = [mat(UIColor(red: 0.85, green: 0.25, blue: 0.25, alpha: 1))]
             rail.position = SCNVector3(x, 0.25, -60)
-            addChildNode(rail)
+            rootNode.addChildNode(rail)
         }
 
         // Scrolling dashed dividers
@@ -149,7 +147,7 @@ final class GameScene: SCNScene, SCNSceneRendererDelegate {
                 let dash = SCNNode(geometry: SCNBox(width: 0.14, height: 0.05, length: 1.4, chamferRadius: 0.02))
                 dash.geometry?.materials = [dashMat]
                 dash.position = SCNVector3(x, 0.05, z)
-                addChildNode(dash)
+                rootNode.addChildNode(dash)
                 scrollers.append(dash)
             }
             z += 4
@@ -162,7 +160,7 @@ final class GameScene: SCNScene, SCNSceneRendererDelegate {
             let tie = SCNNode(geometry: SCNBox(width: 7.2, height: 0.03, length: 0.5, chamferRadius: 0))
             tie.geometry?.materials = [tieMat]
             tie.position = SCNVector3(0, 0.015, z)
-            addChildNode(tie)
+            rootNode.addChildNode(tie)
             scrollers.append(tie)
             z += 8
         }
@@ -173,10 +171,10 @@ final class GameScene: SCNScene, SCNSceneRendererDelegate {
             let h = Float.random(in: 3...9)
             let w = Float.random(in: 2...4)
             let side: Float = (i % 2 == 0) ? -1 : 1
-            let block = SCNNode(geometry: SCNBox(width: w, height: h, length: w, chamferRadius: 0.1))
+            let block = SCNNode(geometry: SCNBox(width: CGFloat(w), height: CGFloat(h), length: CGFloat(w), chamferRadius: 0.1))
             block.geometry?.materials = [blockMat]
             block.position = SCNVector3(side * Float.random(in: 8...14), h / 2, Float.random(in: -120...10))
-            addChildNode(block)
+            rootNode.addChildNode(block)
         }
     }
 
@@ -184,7 +182,7 @@ final class GameScene: SCNScene, SCNSceneRendererDelegate {
         player?.removeFromParentNode()
         let p = Player(characterID: characterID)
         p.position = SCNVector3(0, 0, 0)
-        addChildNode(p)
+        rootNode.addChildNode(p)
         player = p
     }
 
@@ -359,7 +357,7 @@ final class GameScene: SCNScene, SCNSceneRendererDelegate {
             guard let kind = kinds[lane] else { continue }
             let ob = Obstacle(kind: kind, laneIndex: lane)
             ob.position = SCNVector3(GameScene.laneX[lane], 0, spawnZ)
-            addChildNode(ob)
+            rootNode.addChildNode(ob)
             obstacles.append(ob)
         }
     }
@@ -376,7 +374,7 @@ final class GameScene: SCNScene, SCNSceneRendererDelegate {
             }
             let coin = Coin()
             coin.position = SCNVector3(GameScene.laneX[lane], 0.9, spawnZ - Float(i) * 1.1)
-            addChildNode(coin)
+            rootNode.addChildNode(coin)
             coins.append(coin)
         }
     }
@@ -385,7 +383,7 @@ final class GameScene: SCNScene, SCNSceneRendererDelegate {
         let kind: PowerUpKind = Bool.random() ? .magnet : .multiplier
         let pu = PowerUp(kind: kind)
         pu.position = SCNVector3(GameScene.laneX[Int.random(in: 0...2)], 1.1, spawnZ - 2)
-        addChildNode(pu)
+        rootNode.addChildNode(pu)
         powerUps.append(pu)
     }
 
