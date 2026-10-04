@@ -24,3 +24,6 @@ Banner on menu/character screens, interstitial every 3rd game over, rewarded ad 
 
 ## Build
 Open `ProjectDelta.xcodeproj` in Xcode, pick a target, run. Deployment target iOS 16.0.
+
+## Music
+Background music: "The Entertainer" by Kevin MacLeod (incompetech.com), licensed under CC BY 4.0. The MP3 (`ProjectDelta/delta_ragtime.mp3`) is not stored in git — download it from the project chat/docs and place it at that path before building.
