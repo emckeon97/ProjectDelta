@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PierPressure.Windows.Views.MenuPage"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="#0A0A0C">
+    <Grid>
+        <ScrollView>
+            <VerticalStackLayout Padding="24" Spacing="0"
+                                 VerticalOptions="Center"
+                                 HorizontalOptions="Center"
+                                 MaximumWidthRequest="560">
+
+                <Label Text="NOW SHOWING"
+                       FontSize="13" FontAttributes="Bold"
+                       FontFamily="Georgia"
+                       TextColor="#F5EFE0" Opacity="0.75"
+                       HorizontalTextAlignment="Center" />
+
+                <HorizontalStackLayout x:Name="LightsRow"
+                                       Spacing="9"
+                                       HorizontalOptions="Center"
+                                       Margin="0,10,0,10" />
+
+                <Label Text="PIER PRESSURE"
+                       FontSize="44" FontAttributes="Bold"
+                       FontFamily="Georgia"
+                       TextColor="#F5EFE0"
+                       HorizontalTextAlignment="Center" />
+
+                <Label Text="A STEAMBOAT CARTOON"
+                       FontSize="14" FontAttributes="Bold"
+                       FontFamily="Georgia"
+                       TextColor="#D4A942"
+                       HorizontalTextAlignment="Center"
+                       Margin="0,8,0,0" />
+
+                <Image x:Name="HeroSprite"
+                       WidthRequest="110" HeightRequest="110"
+                       Aspect="AspectFit"
+                       HorizontalOptions="Center"
+                       Margin="0,14,0,0" />
+
+                <Label x:Name="HeroName"
+                       FontSize="15" FontAttributes="Bold"
+                       FontFamily="Georgia"
+                       TextColor="#F5EFE0" Opacity="0.9"
+                       HorizontalTextAlignment="Center"
+                       Margin="0,6,0,0" />
+
+                <HorizontalStackLayout Spacing="16"
+                                       HorizontalOptions="Center"
+                                       Margin="0,14,0,18">
+                    <Frame CornerRadius="14" BorderColor="#D4A942"
+                           BackgroundColor="#0A0A0C" Padding="16,8" HasShadow="False">
+                        <Label x:Name="CoinsLabel" FontSize="17" FontAttributes="Bold"
+                               FontFamily="Georgia" TextColor="#D4A942" />
+                    </Frame>
+                    <Frame CornerRadius="14" BorderColor="#D4A942"
+                           BackgroundColor="#0A0A0C" Padding="16,8" HasShadow="False">
+                        <Label x:Name="HighLabel" FontSize="17" FontAttributes="Bold"
+                               FontFamily="Georgia" TextColor="#D4A942" />
+                    </Frame>
+                </HorizontalStackLayout>
+
+                <Button x:Name="PlayButton" Clicked="OnPlayClicked"
+                        BackgroundColor="#D4A942" TextColor="#0A0A0C"
+                        CornerRadius="10" Padding="0,13">
+                    <Button.Content>
+                        <VerticalStackLayout>
+                            <Label Text="★ ADMIT ONE ★" FontSize="11" FontAttributes="Bold"
+                                   FontFamily="Georgia" TextColor="#0A0A0C"
+                                   HorizontalTextAlignment="Center" />
+                            <Label Text="PLAY" FontSize="30" FontAttributes="Bold"
+                                   FontFamily="Georgia" TextColor="#0A0A0C"
+                                   HorizontalTextAlignment="Center" />
+                        </VerticalStackLayout>
+                    </Button.Content>
+                </Button>
+
+                <Button Text="MEET THE STARS" Clicked="OnStarsClicked"
+                        BackgroundColor="Transparent" TextColor="#F5EFE0"
+                        BorderColor="#F5EFE0" BorderWidth="2"
+                        FontSize="18" FontAttributes="Bold" FontFamily="Georgia"
+                        CornerRadius="10" Padding="0,12" Margin="0,12,0,0" />
+
+                <Label x:Name="BillingLabel"
+                       FontSize="9" FontFamily="Georgia"
+                       TextColor="#F5EFE0" Opacity="0.45"
+                       HorizontalTextAlignment="Center"
+                       Margin="0,12,0,0" />
+
+                <Label Text="Music: “The Entertainer” by Kevin MacLeod (incompetech.com) · CC BY 4.0"
+                       FontSize="9" TextColor="#F5EFE0" Opacity="0.35"
+                       HorizontalTextAlignment="Center" Margin="0,8,0,0" />
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Button x:Name="MuteButton" Clicked="OnMuteClicked"
+                FontSize="20" BackgroundColor="#0F0F12" CornerRadius="12"
+                WidthRequest="48" HeightRequest="48"
+                HorizontalOptions="End" VerticalOptions="Start"
+                Margin="0,16,16,0" />
+    </Grid>
+</ContentPage>
