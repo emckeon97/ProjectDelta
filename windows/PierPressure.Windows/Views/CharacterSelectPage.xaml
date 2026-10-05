@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PierPressure.Windows.Views.CharacterSelectPage"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="#0A0A0C"
+             Title="Meet the Stars">
+    <Grid RowDefinitions="Auto,*,Auto" Padding="24">
+        <Label Text="MEET THE STARS" Grid.Row="0"
+               FontSize="28" FontAttributes="Bold" FontFamily="Georgia"
+               TextColor="#F5EFE0" HorizontalTextAlignment="Center"
+               Margin="0,8,0,4" />
+        <Label x:Name="CoinsLabel" Grid.Row="0"
+               FontSize="16" FontAttributes="Bold" FontFamily="Georgia"
+               TextColor="#D4A942" HorizontalTextAlignment="Center"
+               Margin="0,44,0,12" />
+
+        <CollectionView x:Name="RosterView" Grid.Row="1"
+                        SelectionMode="None">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical" Span="3"
+                                 HorizontalItemSpacing="12" VerticalItemSpacing="12" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame CornerRadius="12" Padding="8" HasShadow="False"
+                           BackgroundColor="#111114"
+                           BorderColor="#D4A942">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnToonTapped"
+                                                  CommandParameter="{Binding Id}" />
+                        </Frame.GestureRecognizers>
+                        <VerticalStackLayout Spacing="2">
+                            <Image Source="{Binding Image}" Aspect="AspectFit"
+                                   HeightRequest="72" />
+                            <Label Text="{Binding Name}" FontSize="11"
+                                   FontAttributes="Bold" FontFamily="Georgia"
+                                   TextColor="#F5EFE0"
+                                   HorizontalTextAlignment="Center"
+                                   MaxLines="2" />
+                            <Label Text="{Binding PriceText}" FontSize="11"
+                                   FontFamily="Georgia" TextColor="#D4A942"
+                                   HorizontalTextAlignment="Center" />
+                        </VerticalStackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Button Text="BACK" Grid.Row="2" Clicked="OnBackClicked"
+                BackgroundColor="Transparent" TextColor="#F5EFE0"
+                BorderColor="#F5EFE0" BorderWidth="2"
+                FontSize="16" FontAttributes="Bold" FontFamily="Georgia"
+                CornerRadius="10" Padding="0,10" Margin="0,12,0,0" />
+    </Grid>
+</ContentPage>
