@@ -26,16 +26,10 @@
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>UIRequiredDeviceCapabilities</key>
-	<array>
-		<string>armv7</string>
-	</array>
 	<key>UILaunchScreen</key>
 	<dict>
 		<key>UIColorName</key>
-		<string></string>
-		<key>UIImageName</key>
-		<string></string>
+		<string>SystemBackground</string>
 	</dict>
 	<key>UIRequiresFullScreen</key>
 	<true/>
